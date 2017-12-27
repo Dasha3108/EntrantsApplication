@@ -1,0 +1,22 @@
+﻿@model EntrantsApplication.Domain.Entities.Entrant
+
+@{
+    ViewBag.Title = "Adding Entrant Information";
+}
+
+<head>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-theme.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="text-center">
+
+        <h2>The entrant @Model.Name @Model.SecondName @Model.Surname was successfully added.</h2>
+        @Html.ActionLink("Go back to Main Menu", "MainMenu")
+        <p>
+            @Html.ActionLink("Watch the List", "List")
+        </p>
+    </div>
+</body>
+

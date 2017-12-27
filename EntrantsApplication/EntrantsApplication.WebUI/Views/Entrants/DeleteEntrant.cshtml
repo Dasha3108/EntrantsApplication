@@ -1,0 +1,20 @@
+﻿@model EntrantsApplication.Domain.Entities.Entrant
+
+@{
+    ViewBag.Title = "DeleteEntrant";
+}
+<head>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-theme.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="text-center">
+        <h2>The entrant by the name of @Model.Name @Model.SecondName @Model.Surname was successfully deleted.</h2>
+        @Html.ActionLink("Go back to Main Menu", "MainMenu")
+        <p>
+            @Html.ActionLink("Go back to the List", "List")
+        </p>
+    </div>
+</body>
+

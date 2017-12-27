@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2010
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntrantsApplication.WebUI", "EntrantsApplication.WebUI\EntrantsApplication.WebUI.csproj", "{24C6AF39-F94B-4047-9EE1-DD25B7B4DB97}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntrantsApplication.Domain", "EntrantsApplication.Domain\EntrantsApplication.Domain.csproj", "{C960C1F3-00A6-4D0A-BE93-9BF32A749228}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{24C6AF39-F94B-4047-9EE1-DD25B7B4DB97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24C6AF39-F94B-4047-9EE1-DD25B7B4DB97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24C6AF39-F94B-4047-9EE1-DD25B7B4DB97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24C6AF39-F94B-4047-9EE1-DD25B7B4DB97}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C960C1F3-00A6-4D0A-BE93-9BF32A749228}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C960C1F3-00A6-4D0A-BE93-9BF32A749228}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C960C1F3-00A6-4D0A-BE93-9BF32A749228}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C960C1F3-00A6-4D0A-BE93-9BF32A749228}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A489E06E-D4C5-45B7-9CCC-D133E0232253}
+	EndGlobalSection
+EndGlobal
