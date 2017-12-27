@@ -1,0 +1,269 @@
+﻿@model EntrantsApplication.Domain.Entities.Entrant
+
+@{
+    ViewBag.Title = "Full Entrant Information";
+}
+
+<head>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-theme.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="panel panel-success">
+        <div class="panel-body">
+            <div class="text-center" style="display: flex; flex-direction: column; align-items: center;">
+                <h1>
+                    @Html.DisplayFor(modelItem => Model.Name)
+                    @Html.DisplayFor(modelItem => Model.SecondName)
+                    @Html.DisplayFor(modelItem => Model.Surname)
+                    Full Information
+                </h1>
+                <div  class="form-container" style="width: 220px; display: flex; justify-content: space-around;">
+
+                    @using (Html.BeginForm("EditEntrant", "Entrants", new { entrantId = Model.EntrantId }))
+    {
+                @Html.HiddenFor(modelItem => Model.EntrantId)
+                <input type="submit" class="btn btn-success" value="Edit" />
+}
+                    @using (Html.BeginForm("DeleteEntrant", "Entrants", new { entrantId = Model.EntrantId }))
+    {
+                @Html.HiddenFor(modelItem => Model.EntrantId)
+                <input type="submit" class="btn btn-success" value="Delete" />
+}
+                </div>
+              
+            </div>
+
+
+
+            <h2>Personal Information</h2>
+            <table class="table table-bordered table-responsive table-hover">
+                <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Second Name
+                    </th>
+                    <th>
+                        Surname
+                    </th>
+                    <th>
+                        Date of The Birth
+                    </th>
+                    <th>
+                        Home Address
+                    </th>
+                    <th>
+                        Mobile Phone
+                    </th>
+                </tr>
+
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.SecondName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.Surname)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.DateOfTheBirth)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.HomeAddress)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.MobilePhone)
+                    </td>
+                </tr>
+
+            </table>
+
+            <h2>Educational Information</h2>
+            <table class="table table-bordered table-responsive table-hover">
+                <tr>
+                    <th>
+                        Speciality
+                    </th>
+                    <th>
+                        School Name
+                    </th>
+                    <th>
+                        Year of Finishing the School
+                    </th>
+                    <th>
+                        The Average School Score
+                    </th>
+                    <th>
+                        Foreign Language
+                    </th>
+                    <th>
+                        The Need of Dormitory
+                    </th>
+                </tr>
+
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.Speciality)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.School)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.YearOfFinishingTheSchool)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.AverageSchoolScore)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.ForeignLanguage)
+                    </td>
+                    <td>
+                        @if (Model.NeedsDormitory)
+                {
+                    @:In Need
+        }
+        else
+        {
+            @:No Need
+}
+                    </td>
+                </tr>
+
+            </table>
+            @if (Model.HasPrivileges)
+    {
+        <p></p>
+        <h2>Privileges:</h2>
+        @Html.DisplayFor(modelItem => Model.Privileges);
+}
+else
+{
+        <p>The entrant hasn't got any privileges.</p>
+        <p></p>
+}
+
+            @if (Model.HasMother)
+    {
+        <h2>Entrant's Mother Information</h2>
+        <table class="table table-bordered table-responsive table-hover">
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Second Name
+                </th>
+                <th>
+                    Surname
+                </th>
+                <th>
+                    The Date of The Birth
+                </th>
+                <th>
+                    Home Address
+                </th>
+                <th>
+                    Mobile Phone
+                </th>
+                <th>
+                    Place of Work
+                </th>
+            </tr>
+
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.MotherName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.MotherSecondName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.MotherSurname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.MotherDateOfTheBirth)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.MotherHomeAddress)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.MotherMobilePhone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.MotherPlaceOfWork)
+                </td>
+            </tr>
+
+        </table>
+}
+else
+{
+        <p>The entrant hasn't got a mother.</p>
+}
+
+            @if (Model.HasFather)
+    {
+        <h2>Entrant's Father Information</h2>
+        <table class="table table-bordered table-responsive table-hover">
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Second Name
+                </th>
+                <th>
+                    Surname
+                </th>
+                <th>
+                    The Date of The Birth
+                </th>
+                <th>
+                    Home Address
+                </th>
+                <th>
+                    Mobile Phone
+                </th>
+                <th>
+                    Place of Work
+                </th>
+            </tr>
+
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.FatherName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.FatherSecondName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.FatherSurname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.FatherDateOfTheBirth)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.FatherHomeAddress)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.FatherMobilePhone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.FatherPlaceOfWork)
+                </td>
+            </tr>
+
+        </table>
+}
+else
+{
+        <p>The entrant hasn't got a father.</p>
+}
+        </div>
+    </div>
+</body>
