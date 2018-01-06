@@ -6,12 +6,14 @@ using System.Web.Mvc;
 using EntrantsApplication.Domain.Abstract;
 using EntrantsApplication.Domain.Concrete;
 using EntrantsApplication.Domain.Entities;
+using EntrantsApplication.WebUI.Models.ListView_Models;
 
 namespace EntrantsApplication.WebUI.Controllers
 {
     public class EntrantsController : Controller
     {
         IEntrantsRepository _entrantsRepository;
+        List<ListViewEntrant> _listViewEntrants = null;
 
         public EntrantsController()
         {
@@ -42,14 +44,27 @@ namespace EntrantsApplication.WebUI.Controllers
                 return View();
         }
 
-        public ViewResult List(int? entrantId)
+        public ViewResult List(int? entrantId, Entrant deletedEntrant)
         {
-            if (entrantId != null)
+            if (_listViewEntrants == null && (_entrantsRepository.Entrants.Count() != 0))
             {
-                _entrantsRepository.Entrants.FirstOrDefault(x => x.EntrantId == entrantId).
+                _listViewEntrants = new List<ListViewEntrant>();
+                foreach (var entrant in _entrantsRepository.Entrants)
+                {
+                    _listViewEntrants.Add(new ListViewEntrant(entrant));
+                }
+            }
+            if (deletedEntrant.Name != null)
+            {
+                _entrantsRepository.SaveEntrant(deletedEntrant);
+                _listViewEntrants.Add(new ListViewEntrant(deletedEntrant));
+            }
+            else if (entrantId != null)
+            {
+                _listViewEntrants.FirstOrDefault(x => x.EntrantId == entrantId).
                     SelectedEntrant = true;
             }
-            return View(_entrantsRepository.Entrants);
+            return View(_listViewEntrants);
         }
 
         public ViewResult FullEntrantInformation(int entrantId)

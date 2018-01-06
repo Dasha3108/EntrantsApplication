@@ -1,5 +1,5 @@
-﻿@using EntrantsApplication.Domain.Entities
-@model IEnumerable<Entrant>
+﻿@using EntrantsApplication.WebUI.Models.ListView_Models
+@model IEnumerable<ListViewEntrant>
 
 @{
     ViewBag.Title = "List";
@@ -13,201 +13,15 @@
     <div class="panel panel-success">
         <div class="content">
             <h1><a>@Html.ActionLink("Main Menu", "MainMenu")</a></h1>
-            @*<table class="table table-bordered table-responsive table-hover">
-                        <tr>
-                            <th>
-                                <div class="text-center">
-                                    Name
-                                </div>
-                            </th>
-                            <th>
-                                <div class="text-center">
-                                    The Date of The Birth
-                                </div>
-                            </th>
-                            <th>
-                                <div class="text-center">
-                                    Full Information
-                                </div>
-                            </th>
-                            <th></th>
-                        </tr>
 
-                        @foreach (var item in Model)
-            {
-                    <tr>
-                        <td>
-                            <div class="form-group">
-                                @Html.DisplayFor(modelItem => item.Name)
-                                @Html.DisplayFor(modelItem => item.SecondName)
-                                @Html.DisplayFor(modelItem => item.Surname)
-                            </div>
-                        </td>
-                        <td>
-                            <div class="text-center">
-                                @Html.DisplayFor(modelItem => item.DateOfTheBirth)
-                            </div>
-                        </td>
-                        <td>
-                            @using (Html.BeginForm("FullEntrantInformation", "Entrants",
-        new { entrantId = item.EntrantId }))
-                {
-                    <div class="text-center">
-                        @Html.HiddenFor(modelItem => item.EntrantId)
-                        <input type="submit" class="btn btn-default" value="Watch" />
-                    </div>
-        }
-                        </td>
-                        <td>
-                            @Html.ActionLink("Show Info Bellow", "List", new { entrantId = item.EntrantId })
-                        </td>
-                    </tr>
-        if (item.SelectedEntrant)
-        {
-                    <tr>
-                        <div class="text-center">
-                            <p>Personal Information</p>
-                        </div>
-                        <div class="form-group">
-                            <p>Name: @Html.DisplayFor(x => item.Name, new { @class = "form-control" }) </p>
-                        </div>
-                        <div class="form-group">
-                            <p>Second Name: @Html.DisplayFor(x => item.SecondName, new { @class = "form-control" })</p>
-                        </div>
-                        <div class="form-group">
-                            <p>Surname: @Html.DisplayFor(x => item.Surname, new { @class = "form-control" })</p>
-                        </div>
-                        <div class="form-group">
-                            <p>Date of The Birth: @Html.DisplayFor(x => item.DateOfTheBirth, new { @class = "form-control" }) </p>
-                        </div>
-                        <div class="form-group">
-                            <p>Home Address: @Html.DisplayFor(x => item.HomeAddress, new { @class = "form-control" })</p>
-                        </div>
-                        <div class="form-group">
-                            <p>Mobile Phone: @Html.DisplayFor(x => item.MobilePhone, new { @class = "form-control" })</p>
-                        </div>
-
-                        <div class="text-center">
-                            <p>Educational Information</p>
-                        </div>
-
-                        <div class="form-group">
-                            <p>Chosen Speciality: @Html.DisplayFor(x => item.Speciality, new { @class = "form-control" }) </p>
-                        </div>
-                        <div class="form-group">
-                            <p>Finished School Name: @Html.DisplayFor(x => item.School, new { @class = "form-control" })</p>
-                        </div>
-                        <div class="form-group">
-                            <p>Year of Finishing The School: @Html.DisplayFor(x => item.YearOfFinishingTheSchool, new { @class = "form-control" })</p>
-                        </div>
-                        <div class="form-group">
-                            <p>The Average School Score: @Html.DisplayFor(x => item.AverageSchoolScore, new { @class = "form-control" }) </p>
-                        </div>
-                        <div class="form-group">
-                            <p>Learned Foreign Language: @Html.DisplayFor(x => item.ForeignLanguage, new { @class = "form-control" })</p>
-                        </div>
-                        <p>Need in dormitory</p>
-                        @if (item.NeedsDormitory)
-                         {
-                            @:In Need
-                        }
-                        else
-                        {
-                            @:No Need
-                        }
-
-                        <div class="text-center">
-                            <p>Privileges</p>
-                        </div>
-                        <div class="form-group">
-                            <p>
-                                Do you have privileges: @Html.DropDownListFor(x => item.HasPrivileges, new[] {
-        new SelectListItem() {Text = "Yes", Value = bool.TrueString}, new SelectListItem(){Text="No", Value = bool.FalseString} },
-        "Choose an option", new { @class = "form-control" })
-                            </p>
-                        </div>
-                        <div class="form-group">
-                            <p>
-                                Defenition of the Privileges: @Html.DisplayFor(x => item.Privileges, new { @class = "form-control" })
-                            </p>
-                        </div>
-
-                        <div class="text-center">
-                            <p>Entrant's Mother Information</p>
-                        </div>
-
-                        <div class="form-group">
-                            <p>
-                                Mother: @Html.DropDownListFor(x => item.HasMother, new[] {
-        new SelectListItem() {Text = "Have got", Value = bool.TrueString}, new SelectListItem(){Text="Haven't got", Value = bool.FalseString} },
-        "Choose an option", new { @class = "form-control" })
-                            </p>
-                        </div>
-                        <div class="form-group">
-                            <p>Name: @Html.DisplayFor(x => item.MotherName, new { @class = "form-control" }) </p>
-                        </div>
-                        <div class="form-group">
-                            <p>Second Name: @Html.DisplayFor(x => item.MotherSecondName, new { @class = "form-control" })</p>
-                        </div>
-                        <div class="form-group">
-                            <p>Surname: @Html.DisplayFor(x => item.MotherSurname, new { @class = "form-control" })</p>
-                        </div>
-                        <div class="form-group">
-                            <p>Date of The Birth: @Html.DisplayFor(x => item.MotherDateOfTheBirth, new { @class = "form-control" }) </p>
-                        </div>
-                        <div class="form-group">
-                            <p>Home Address: @Html.DisplayFor(x => item.MotherHomeAddress, new { @class = "form-control" })</p>
-                        </div>
-                        <div class="form-group">
-                            <p>Mobile Phone: @Html.DisplayFor(x => item.MotherMobilePhone, new { @class = "form-control" })</p>
-                        </div>
-                        <div class="form-group">
-                            <p>Place of Work: @Html.DisplayFor(x => item.MotherPlaceOfWork, new { @class = "form-control" })</p>
-                        </div>
-
-                        <div class="text-center">
-                            <p>Entrant's Father Information</p>
-                        </div>
-                        <div class="form-group">
-                            <p>
-                                Father: @Html.DropDownListFor(x => item.HasFather, new[] {
-        new SelectListItem() {Text = "Have got", Value = bool.TrueString}, new SelectListItem(){Text="Haven't got", Value = bool.FalseString} },
-        "Choose an option", new { @class = "form-control" })
-                            </p>
-                        </div>
-                        <div class="form-group">
-                            <p>Name: @Html.DisplayFor(x => item.FatherName, new { @class = "form-control" }) </p>
-                        </div>
-                        <div class="form-group">
-                            <p>Second Name: @Html.DisplayFor(x => item.FatherSecondName, new { @class = "form-control" })</p>
-                        </div>
-                        <div class="form-group">
-                            <p>Surname: @Html.DisplayFor(x => item.FatherSurname, new { @class = "form-control" })</p>
-                        </div>
-                        <div class="form-group">
-                            <p>Date of The Birth: @Html.DisplayFor(x => item.FatherDateOfTheBirth, new { @class = "form-control" }) </p>
-                        </div>
-                        <div class="form-group">
-                            <p>Home Address: @Html.DisplayFor(x => item.FatherHomeAddress, new { @class = "form-control" })</p>
-                        </div>
-                        <div class="form-group">
-                            <p>Mobile Phone: @Html.DisplayFor(x => item.FatherMobilePhone, new { @class = "form-control" })</p>
-                        </div>
-                        <div class="form-group">
-                            <p>Place of Work: @Html.DisplayFor(x => item.FatherPlaceOfWork, new { @class = "form-control" })</p>
-                        </div>
-                    </tr>
-        }
-        }
-                    </table>*@
 
             @foreach (var item in Model)
     {
         <div style="background-color : #80d4ff" ;>
             <div class="form-group text-center">
-                @Html.DisplayFor(modelItem => item.Name)
-                @Html.DisplayFor(modelItem => item.SecondName)
-                @Html.DisplayFor(modelItem => item.Surname)
+                @Html.DisplayFor(modelItem => item.EntrantName)
+                @*@Html.DisplayFor(modelItem => item.SecondName)
+            @Html.DisplayFor(modelItem => item.Surname)*@
             </div>
             <div class="text-center">
                 @Html.DisplayFor(modelItem => item.DateOfTheBirth)
@@ -232,14 +46,14 @@ if (item.SelectedEntrant)
             <p>Personal Information</p>
         </div>
         <div class="form-group">
-            <p>Name: @Html.DisplayFor(x => item.Name, new { @class = "form-control" }) </p>
+            <p>Name: @Html.DisplayFor(x => item.EntrantName, new { @class = "form-control" }) </p>
         </div>
-        <div class="form-group">
-            <p>Second Name: @Html.DisplayFor(x => item.SecondName, new { @class = "form-control" })</p>
-        </div>
-        <div class="form-group">
-            <p>Surname: @Html.DisplayFor(x => item.Surname, new { @class = "form-control" })</p>
-        </div>
+        @*<div class="form-group">
+        <p>Second Name: @Html.DisplayFor(x => item.SecondName, new { @class = "form-control" })</p>
+    </div>
+    <div class="form-group">
+        <p>Surname: @Html.DisplayFor(x => item.Surname, new { @class = "form-control" })</p>
+    </div>*@
         <div class="form-group">
             <p>Date of The Birth: @Html.DisplayFor(x => item.DateOfTheBirth, new { @class = "form-control" }) </p>
         </div>
@@ -301,68 +115,68 @@ else
             <p>Entrant's Mother Information</p>
         </div>
 
-        if (item.HasMother)
-{
-        <div class="form-group">
-            <p>Name: @Html.DisplayFor(x => item.MotherName, new { @class = "form-control" }) </p>
-        </div>
-        <div class="form-group">
-            <p>Second Name: @Html.DisplayFor(x => item.MotherSecondName, new { @class = "form-control" })</p>
-        </div>
-        <div class="form-group">
-            <p>Surname: @Html.DisplayFor(x => item.MotherSurname, new { @class = "form-control" })</p>
-        </div>
-        <div class="form-group">
-            <p>Date of The Birth: @Html.DisplayFor(x => item.MotherDateOfTheBirth, new { @class = "form-control" }) </p>
-        </div>
-        <div class="form-group">
-            <p>Home Address: @Html.DisplayFor(x => item.MotherHomeAddress, new { @class = "form-control" })</p>
-        </div>
-        <div class="form-group">
-            <p>Mobile Phone: @Html.DisplayFor(x => item.MotherMobilePhone, new { @class = "form-control" })</p>
-        </div>
-        <div class="form-group">
-            <p>Place of Work: @Html.DisplayFor(x => item.MotherPlaceOfWork, new { @class = "form-control" })</p>
-        </div>
-}
-        else
-        {
-            <p>The entrant hasn't got a mother.</p>
-        }
-
-        <div class="text-center">
-            <p>Entrant's Father Information</p>
-        </div>
-        if (item.HasFather)
-        {
-        <div class="form-group">
-            <p>Name: @Html.DisplayFor(x => item.FatherName, new { @class = "form-control" }) </p>
-        </div>
-        <div class="form-group">
-            <p>Second Name: @Html.DisplayFor(x => item.FatherSecondName, new { @class = "form-control" })</p>
-        </div>
-        <div class="form-group">
-            <p>Surname: @Html.DisplayFor(x => item.FatherSurname, new { @class = "form-control" })</p>
-        </div>
-        <div class="form-group">
-            <p>Date of The Birth: @Html.DisplayFor(x => item.FatherDateOfTheBirth, new { @class = "form-control" }) </p>
-        </div>
-        <div class="form-group">
-            <p>Home Address: @Html.DisplayFor(x => item.FatherHomeAddress, new { @class = "form-control" })</p>
-        </div>
-        <div class="form-group">
-            <p>Mobile Phone: @Html.DisplayFor(x => item.FatherMobilePhone, new { @class = "form-control" })</p>
-        </div>
-        <div class="form-group">
-            <p>Place of Work: @Html.DisplayFor(x => item.FatherPlaceOfWork, new { @class = "form-control" })</p>
-        </div>
-         }
-         else
-          {
-               <p> The entrant hasn't got a mother.</p>
-           }
-                }
+        @*if (item.HasMother)
+    {
+            <div class="form-group">
+                <p>Name: @Html.DisplayFor(x => item.MotherName, new { @class = "form-control" }) </p>
+            </div>
+            <div class="form-group">
+                <p>Second Name: @Html.DisplayFor(x => item.MotherSecondName, new { @class = "form-control" })</p>
+            </div>
+            <div class="form-group">
+                <p>Surname: @Html.DisplayFor(x => item.MotherSurname, new { @class = "form-control" })</p>
+            </div>
+            <div class="form-group">
+                <p>Date of The Birth: @Html.DisplayFor(x => item.MotherDateOfTheBirth, new { @class = "form-control" }) </p>
+            </div>
+            <div class="form-group">
+                <p>Home Address: @Html.DisplayFor(x => item.MotherHomeAddress, new { @class = "form-control" })</p>
+            </div>
+            <div class="form-group">
+                <p>Mobile Phone: @Html.DisplayFor(x => item.MotherMobilePhone, new { @class = "form-control" })</p>
+            </div>
+            <div class="form-group">
+                <p>Place of Work: @Html.DisplayFor(x => item.MotherPlaceOfWork, new { @class = "form-control" })</p>
+            </div>
+    }
+            else
+            {
+                <p>The entrant hasn't got a mother.</p>
             }
+
+            <div class="text-center">
+                <p>Entrant's Father Information</p>
+            </div>
+            if (item.HasFather)
+            {
+            <div class="form-group">
+                <p>Name: @Html.DisplayFor(x => item.FatherName, new { @class = "form-control" }) </p>
+            </div>
+            <div class="form-group">
+                <p>Second Name: @Html.DisplayFor(x => item.FatherSecondName, new { @class = "form-control" })</p>
+            </div>
+            <div class="form-group">
+                <p>Surname: @Html.DisplayFor(x => item.FatherSurname, new { @class = "form-control" })</p>
+            </div>
+            <div class="form-group">
+                <p>Date of The Birth: @Html.DisplayFor(x => item.FatherDateOfTheBirth, new { @class = "form-control" }) </p>
+            </div>
+            <div class="form-group">
+                <p>Home Address: @Html.DisplayFor(x => item.FatherHomeAddress, new { @class = "form-control" })</p>
+            </div>
+            <div class="form-group">
+                <p>Mobile Phone: @Html.DisplayFor(x => item.FatherMobilePhone, new { @class = "form-control" })</p>
+            </div>
+            <div class="form-group">
+                <p>Place of Work: @Html.DisplayFor(x => item.FatherPlaceOfWork, new { @class = "form-control" })</p>
+            </div>
+             }
+             else
+              {
+                   <p> The entrant hasn't got a mother.</p>
+               }*@
+}
+}
 
         </div>
     </div>
