@@ -17,28 +17,18 @@ namespace EntrantsApplication.Domain.Entities
     {
         [Key]
         public int EntrantId { get; set; }
-        public bool SelectedEntrant { get; set; } = false;
         [Required(ErrorMessage = "Please enter your name")]
         public string Name { get; set; }
         [Required(ErrorMessage = "Please enter your second name")]
         public string SecondName { get; set; }
         [Required(ErrorMessage = "Please enter your surname")]
-        public string Surname { get; set; }
-        [Required(ErrorMessage = "Please enter the date of your birth")]
-        [DataType(DataType.Date, ErrorMessage ="Please enter a valid date")]
-        [DisplayFormat(DataFormatString ="{0:d.MM.yyyy}")]
+        public string Surname { get; set; }        
         public DateTime DateOfTheBirth { get; set; }
-        [Required(ErrorMessage = "Please enter the speciality that you chose")]
         public string Speciality { get; set; }
-        [Required(ErrorMessage = "Please enter your home address")]
         public string HomeAddress { get; set; }
-        [Required(ErrorMessage = "Please enter your mobile phone")]
-        [DataType(DataType.PhoneNumber, ErrorMessage ="Please enter a valid phone number")]
         public string MobilePhone { get; set; }
-        [Required(ErrorMessage = "Please specify if you have any privileges")]
         public bool HasPrivileges { get; set; }
         public string Privileges { get; set; }
-        [Required(ErrorMessage = "Please specify your need in dormitory")]
         public bool NeedsDormitory { get; set; }
 
         [Required(ErrorMessage = "Please enter the name of the school that you've finished")]

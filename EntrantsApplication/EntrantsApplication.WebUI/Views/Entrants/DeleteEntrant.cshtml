@@ -14,7 +14,18 @@
         @Html.ActionLink("Go back to Main Menu", "MainMenu")
         <p>
             @Html.ActionLink("Go back to the List", "List")
+            
         </p>
+        <p>
+            @Html.ActionLink("Restore Entrant", "List", Model)
+        </p>
+        <div>
+            @using (Html.BeginForm("List", "Entrants", Model))
+            {
+            <input type="submit" value="Resore Entrant" />
+            }
+        </div>
+        
     </div>
 </body>
 
