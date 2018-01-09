@@ -1,29 +1,23 @@
 [
   {
-    "faculty": "John",
+    "faculty": "Faculty of Computer Systems and Networks",
     "specialties": [
       {
-        "name": "Fido"
+        "name": "Informatics"
       },
       {
-        "name": "Felix"
-      },
-      {
-        "name": "Lightning"
+        "name": "Information Technology Software"
       }
     ]
   },
   {
-    "faculty": "De",
+    "faculty": "Faculty of Inaformation Technologies and Control",
     "specialties": [
       {
-        "name": "FFido"
+        "name": "Automated Data Processing Systems"
       },
       {
-        "name": "Felgix"
-      },
-      {
-        "name": "LigEhtning"
+        "name": "Artificial Intelligence"
       }
     ]
   }
