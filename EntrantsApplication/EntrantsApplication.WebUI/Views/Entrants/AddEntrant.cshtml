@@ -7,35 +7,54 @@
 <head>    
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
     <link href="~/Content/bootstrap-theme.css" rel="stylesheet" />    
-    <link rel="stylesheet" type="text/css" href="~/Content/Styles.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/Styles.css"/>
 </head>
 
 <body>
-    <div class="panel panel-success">
-        <div class="panel-body">
-            @using (Html.BeginForm())
+    <script src="~/Scripts/SpecialityDropDowns.js"></script>
+    <style>
+        .form-group {
+            background-color: lightblue;
+            padding: 20px 40px;
+            font-size: 20px;
+            font-weight: 700;
+        }
+        h2 {
+            margin-top: 70px
+        }
+    </style>
+    <div style="margin-left:32px; margin-right:32px; text-align:justify">
+        @using (Html.BeginForm())
     {
         @Html.ValidationSummary()
-        <div class="text-center">
-            <h2>Personal Information</h2>
+        <div style="text-align:center">
+            <h2 style="margin-top:20px">Personal Information</h2>
         </div>
         <div class="form-group">
-            <p>Name: @Html.TextBoxFor(x => x.Name, new { @class = "form-control" }) </p>
-        </div>
-        <div class="form-group">
-            <p>Second Name: @Html.TextBoxFor(x => x.SecondName, new { @class = "form-control" })</p>
-        </div>
-        <div class="form-group">
-            <p>Surname: @Html.TextBoxFor(x => x.Surname, new { @class = "form-control" })</p>
-        </div>
-        <div class="form-group">
-            <p>Date of The Birth: @Html.TextBoxFor(x => x.DateOfTheBirth, new { @class = "form-control" }) </p>
-        </div>
-        <div class="form-group">
-            <p>Home Address: @Html.TextBoxFor(x => x.HomeAddress, new { @class = "form-control" })</p>
-        </div>
-        <div class="form-group">
-            <p>Mobile Phone: @Html.TextBoxFor(x => x.MobilePhone, new { @class = "form-control" })</p>
+            <p>
+                Name:
+                @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
+            </p>
+            <p>
+                Second Name:
+                @Html.TextBoxFor(x => x.SecondName, new { @class = "form-control" })
+            </p>
+            <p>
+                Surname:
+                @Html.TextBoxFor(x => x.Surname, new { @class = "form-control" })
+            </p>
+            <p>
+                Date of The Birth:
+                @Html.TextBoxFor(x => x.DateOfTheBirth, new { @class = "form-control" })
+            </p>
+            <p>
+                Home Address:
+                @Html.TextBoxFor(x => x.HomeAddress, new { @class = "form-control" })
+            </p>
+            <p>
+                Mobile Phone:
+                @Html.TextBoxFor(x => x.MobilePhone, new { @class = "form-control" })
+            </p>
         </div>
 
         <div class="text-center">
@@ -43,27 +62,37 @@
         </div>
 
         <div class="form-group">
-            <p>Chosen Speciality: @Html.TextBoxFor(x => x.Speciality, new { @class = "form-control" }) </p>
-        </div>
-        <div class="form-group">
-            <p>Finished School Name: @Html.TextBoxFor(x => x.School, new { @class = "form-control" })</p>
-        </div>
-        <div class="form-group">
-            <p>Year of Finishing The School: @Html.TextBoxFor(x => x.YearOfFinishingTheSchool, new { @class = "form-control" })</p>
-        </div>
-        <div class="form-group">
-            <p>The Average School Score: @Html.TextBoxFor(x => x.AverageSchoolScore, new { @class = "form-control" }) </p>
-        </div>
-        <div class="form-group">
-            <p>Learned Foreign Language: @Html.TextBoxFor(x => x.ForeignLanguage, new { @class = "form-control" })</p>
-        </div>
-        <div class="form-group">
-            <p>
-                Do you need a dormitory: @Html.DropDownListFor(x => x.NeedsDormitory, new[] {
+            <div style="float:left; width:50%; padding-right:10px">
+                <p>Chosen Speciality:
+                <div id="specialityComboboxesDropDowns">
+                    <select id="EducationFeeDropDown" style="width:30%" onchange="AddFaculties()">
+                        <option>Free</option>
+                        <option>Paid</option>
+                    </select>
+                    <select id="FacultyDropDown" style="width:30%">
+                        <option>Choose an option</option>
+                    </select>
+                    @Html.DropDownListFor(x => x.Speciality, Enumerable.Empty<SelectListItem>(), "Choose an option", 
+                   new { @id = "SpecialityDropDown", @style = "width:30%" })
+                </div>
+                </p>
+                <p>Finished School Name: @Html.TextBoxFor(x => x.School, new { @class = "form-control" })</p>
+                <p>Year of Finishing The School: @Html.TextBoxFor(x => x.YearOfFinishingTheSchool, new { @class = "form-control" })</p>
+                <p>Learned Foreign Language: @Html.TextBoxFor(x => x.ForeignLanguage, new { @class = "form-control" })</p>
+                <p>
+                    Do you need a dormitory: @Html.DropDownListFor(x => x.NeedsDormitory, new[] {
 new SelectListItem() {Text = "Yes", Value = bool.TrueString}, new SelectListItem(){Text="No", Value = bool.FalseString} },
 "Choose an option", new { @class = "form-control" })
-            </p>
+                </p>
+            </div>
+            <div style="float:right; width:50%; padding-left:10px">
+                <p>The Average School Score: @Html.TextBoxFor(x => x.AverageSchoolScore, new { @class = "form-control" }) </p>
+            </div>
+            <div style="clear:both">
+
+            </div>
         </div>
+
 
         <div class="text-center">
             <h2>Privileges</h2>
@@ -72,86 +101,99 @@ new SelectListItem() {Text = "Yes", Value = bool.TrueString}, new SelectListItem
             <p>
                 Do you have privileges: @Html.DropDownListFor(x => x.HasPrivileges, new[] {
 new SelectListItem() {Text = "Yes", Value = bool.TrueString}, new SelectListItem(){Text="No", Value = bool.FalseString} },
-"Choose an option", new { @class = "form-control" })
+"Choose an option", new { @class = "form-control", @id = "privilegesDropDown", @onchange = "showPrivelegesDefenition()" })
             </p>
-        </div>
-        <div class="form-group">
-            <p>
+            <script>
+                function showPrivelegesDefenition()
+                {
+                    var dropDown = document.getElementById("privilegesDropDown");
+                    if (dropDown.options[dropDown.selectedIndex].text == "Yes") {
+                        document.getElementById("privilegesDefenition").style.display = "block";
+                    }
+                    else {
+                        document.getElementById("privilegesDefenition").style.display = "none";
+                    }
+                }
+            </script>
+            <p id="privilegesDefenition" style="display:none">
                 Defenition of the Privileges: @Html.TextBoxFor(x => x.Privileges, new { @class = "form-control" })
             </p>
         </div>
 
-        <div class="text-center">
-            <h2>Entrant's Mother Information</h2>
-        </div>
+        <div>
+            <div style="float:left; width:50%; padding-right:10px">
+                <div class="text-center">
+                    <h2>Entrant's Mother Information</h2>
+                </div>
 
-        <div class="form-group">
-            <p>
-                Mother: @Html.DropDownListFor(x => x.HasMother, new[] {
+                <div class="form-group">
+                    <p>
+                        Mother: @Html.DropDownListFor(x => x.HasMother, new[] {
 new SelectListItem() {Text = "Have got", Value = bool.TrueString}, new SelectListItem(){Text="Haven't got", Value = bool.FalseString} },
-"Choose an option", new { @class = "form-control" })
-            </p>
-        </div>
-        <div class="form-group">
-            <p>Name: @Html.TextBoxFor(x => x.MotherName, new { @class = "form-control" }) </p>
-        </div>
-        <div class="form-group">
-            <p>Second Name: @Html.TextBoxFor(x => x.MotherSecondName, new { @class = "form-control" })</p>
-        </div>
-        <div class="form-group">
-            <p>Surname: @Html.TextBoxFor(x => x.MotherSurname, new { @class = "form-control" })</p>
-        </div>
-        <div class="form-group">
-            <p>Date of The Birth: @Html.TextBoxFor(x => x.MotherDateOfTheBirth, new { @class = "form-control" }) </p>
-        </div>
-        <div class="form-group">
-            <p>Home Address: @Html.TextBoxFor(x => x.MotherHomeAddress, new { @class = "form-control" })</p>
-        </div>
-        <div class="form-group">
-            <p>Mobile Phone: @Html.TextBoxFor(x => x.MotherMobilePhone, new { @class = "form-control" })</p>
-        </div>
-        <div class="form-group">
-            <p>Place of Work: @Html.TextBoxFor(x => x.MotherPlaceOfWork, new { @class = "form-control" })</p>
-        </div>
-
-        <div class="text-center">
-            <h2>Entrant's Father Information</h2>
-        </div>
-        <div class="form-group">
-            <p>
-                Father: @Html.DropDownListFor(x => x.HasFather, new[] {
-new SelectListItem() {Text = "Have got", Value = bool.TrueString}, new SelectListItem(){Text="Haven't got", Value = bool.FalseString} },
-"Choose an option", new { @class = "form-control" })
-            </p>
-        </div>
-        <div class="form-group">
-            <p>Name: @Html.TextBoxFor(x => x.FatherName, new { @class = "form-control" }) </p>
-        </div>
-        <div class="form-group">
-            <p>Second Name: @Html.TextBoxFor(x => x.FatherSecondName, new { @class = "form-control" })</p>
-        </div>
-        <div class="form-group">
-            <p>Surname: @Html.TextBoxFor(x => x.FatherSurname, new { @class = "form-control" })</p>
-        </div>
-        <div class="form-group">
-            <p>Date of The Birth: @Html.TextBoxFor(x => x.FatherDateOfTheBirth, new { @class = "form-control" }) </p>
-        </div>
-        <div class="form-group">
-            <p>Home Address: @Html.TextBoxFor(x => x.FatherHomeAddress, new { @class = "form-control" })</p>
-        </div>
-        <div class="form-group">
-            <p>Mobile Phone: @Html.TextBoxFor(x => x.FatherMobilePhone, new { @class = "form-control" })</p>
-        </div>
-        <div class="form-group">
-            <p>Place of Work: @Html.TextBoxFor(x => x.FatherPlaceOfWork, new { @class = "form-control" })</p>
-        </div>
-        <div class="text-center">
-            <input class="btn-success" type="submit" value="Submit" />
-        </div>
-}
-        </div>
-            
+"Choose an option", new { @class = "form-control", @id = "motherDropDown", @onchange = "showMotherInfo()" })
+                    </p>
+                    <script>
+                        function showMotherInfo() {
+                            var dropDown = document.getElementById("motherDropDown");
+                            if (dropDown.options[dropDown.selectedIndex].text == "Have got") {
+                                document.getElementById("motherInfo").style.display = "block";
+                            }
+                            else {
+                                document.getElementById("motherInfo").style.display = "none";
+                            }
+                        }
+                    </script>
+                    <div id="motherInfo" style="display:none">
+                        <p>Name: @Html.TextBoxFor(x => x.MotherName, new { @class = "form-control" }) </p>
+                        <p>Second Name: @Html.TextBoxFor(x => x.MotherSecondName, new { @class = "form-control" })</p>
+                        <p>Surname: @Html.TextBoxFor(x => x.MotherSurname, new { @class = "form-control" })</p>
+                        <p>Date of The Birth: @Html.TextBoxFor(x => x.MotherDateOfTheBirth, new { @class = "form-control" }) </p>
+                        <p>Home Address: @Html.TextBoxFor(x => x.MotherHomeAddress, new { @class = "form-control" })</p>
+                        <p>Mobile Phone: @Html.TextBoxFor(x => x.MotherMobilePhone, new { @class = "form-control" })</p>
+                        <p>Place of Work: @Html.TextBoxFor(x => x.MotherPlaceOfWork, new { @class = "form-control" })</p>
+                    </div>
+                </div>
             </div>
+
+            <div style="float:right; width:50%; padding-left:10px">
+                <div class="text-center">
+                    <h2>Entrant's Father Information</h2>
+                </div>
+                <div class="form-group">
+                    <p>
+                        Father: @Html.DropDownListFor(x => x.HasFather, new[] {
+new SelectListItem() {Text = "Have got", Value = bool.TrueString}, new SelectListItem(){Text="Haven't got", Value = bool.FalseString} },
+"Choose an option", new { @class = "form-control", @id = "fatherDropDown", @onchange = "showFatherInfo()" })
+                    </p>
+                    <script>
+                        function showFatherInfo() {
+                            var dropDown = document.getElementById("fatherDropDown");
+                            if (dropDown.options[dropDown.selectedIndex].text == "Have got") {
+                                document.getElementById("fatherInfo").style.display = "block";
+                            }
+                            else {
+                                document.getElementById("fatherInfo").style.display = "none";
+                            }
+                        }
+                    </script>
+                    <div id="fatherInfo" style="display:none">
+                        <p>Name: @Html.TextBoxFor(x => x.FatherName, new { @class = "form-control" }) </p>
+                        <p>Second Name: @Html.TextBoxFor(x => x.FatherSecondName, new { @class = "form-control" })</p>
+                        <p>Surname: @Html.TextBoxFor(x => x.FatherSurname, new { @class = "form-control" })</p>
+                        <p>Date of The Birth: @Html.TextBoxFor(x => x.FatherDateOfTheBirth, new { @class = "form-control" }) </p>
+                        <p>Home Address: @Html.TextBoxFor(x => x.FatherHomeAddress, new { @class = "form-control" })</p>
+                        <p>Mobile Phone: @Html.TextBoxFor(x => x.FatherMobilePhone, new { @class = "form-control" })</p>
+                        <p>Place of Work: @Html.TextBoxFor(x => x.FatherPlaceOfWork, new { @class = "form-control" })</p>
+                    </div>
+                </div>
+            </div>
+            <div style="clear:both"></div>
+        </div>
+        <div style="text-align:center">
+            <input class="btn-success" type="submit" value="Submit"/>
+        </div>
+            }
+        </div>
 
 </body>
 
