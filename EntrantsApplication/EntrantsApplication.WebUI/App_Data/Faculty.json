@@ -1,0 +1,30 @@
+[
+  {
+    "faculty": "John",
+    "specialties": [
+      {
+        "name": "Fido"
+      },
+      {
+        "name": "Felix"
+      },
+      {
+        "name": "Lightning"
+      }
+    ]
+  },
+  {
+    "faculty": "De",
+    "specialties": [
+      {
+        "name": "FFido"
+      },
+      {
+        "name": "Felgix"
+      },
+      {
+        "name": "LigEhtning"
+      }
+    ]
+  }
+]
