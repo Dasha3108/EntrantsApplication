@@ -72,13 +72,13 @@ namespace EntrantsApplication.WebUI.Controllers
             var currentEntrant = _entrantsRepository.Entrants.FirstOrDefault(x => x.EntrantId == entrantId);
             return View(currentEntrant);
         }
-        
+
         public ViewResult EditEntrant(int entrantId)
         {
             var currentEntrant = _entrantsRepository.Entrants.FirstOrDefault(x => x.EntrantId == entrantId);
             return View(currentEntrant);
         }
-        
+
         public ViewResult EditEntrantInformation(Entrant entrant)
         {
             if (ModelState.IsValid)
