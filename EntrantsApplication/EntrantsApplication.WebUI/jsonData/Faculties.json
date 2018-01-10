@@ -1,0 +1,59 @@
+﻿[
+  {
+    "text": "Free",
+    "children": [
+      {
+        "text": "Faculty of Computer Systems and Networks",
+        "children": [
+          {
+            "text": "Informatics"
+          },
+          {
+            "text": "Information Technology Software"
+          }
+        ]
+      },
+      {
+        "text": "Faculty of Information Technologies and Control",
+        "children": [
+          {
+            "text": "Automated Data Processing Systems"
+          },
+          {
+            "text": "Artificial Intelligence"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Paid",
+    "children": [
+      {
+        "text": "Faculty of Computer Systems and Networks",
+        "children": [
+          {
+            "text": "Informatics"
+          },
+          {
+            "text": "Information Technology Software"
+          }
+        ]
+      },
+      {
+        "text": "Faculty of Information Technologies and Control",
+        "children": [
+          {
+            "text": "Automated Data Processing Systems"
+          },
+          {
+            "text": "Artificial Intelligence"
+          },
+          {
+            "text": "Gaming Industry"
+          }
+        ]
+      }
+    ]
+  }
+]
