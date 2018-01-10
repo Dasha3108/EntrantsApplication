@@ -4,14 +4,98 @@
     ViewBag.Title = "Adding an Entrant";
 }
 
-<head>    
+<head>
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
-    <link href="~/Content/bootstrap-theme.css" rel="stylesheet" />    
-    <link rel="stylesheet" type="text/css" href="~/Content/Styles.css"/>
+    <link href="~/Content/bootstrap-theme.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="~/Content/Styles.css" />
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+
+    <script type="text/javascript">
+        var selectedEducationFeeFaculties;
+
+        $(document).ready(function () {
+            $("#EducationFeeDropDown").change(function (event) {
+                $.getJSON(
+                    '/jsonData/Faculties.json',
+                    function (myObject) {
+                        console.log(myObject);
+                        var facultyDropDown = document.getElementById("FacultyDropDown");
+                        while (facultyDropDown.firstChild) {
+                            facultyDropDown.removeChild(facultyDropDown.firstChild);
+                        }
+                        var specialitytyDropDown = document.getElementById("SpecialityDropDown");
+                        while (specialitytyDropDown.firstChild) {
+                            specialitytyDropDown.removeChild(specialitytyDropDown.firstChild);
+                        }
+                        specialitytyDropDown.innerHTML = "<option>Choose an option</option>";
+                        var currentElement = document.getElementById("EducationFeeDropDown");
+                        for (var elementNumber in myObject) {
+                            var educationFeeName = myObject[elementNumber].educationFee;
+                            if (currentElement.options[currentElement.selectedIndex].text == educationFeeName) {
+                                for (var facultyNumber in myObject[elementNumber].faculties) {
+                                    var newOption = document.createElement("option");
+                                    var newOptionText = document.createTextNode(myObject[elementNumber].
+                                        faculties[facultyNumber].faculty);
+                                    newOption.appendChild(newOptionText);
+                                    facultyDropDown.appendChild(newOption);
+                                }
+                                selectedEducationFeeFaculties = myObject[elementNumber].faculties;
+                                break;
+                            }
+                        }
+                    });
+            });
+        });
+
+        $(document).ready(function () {
+            $("#FacultyDropDown").change(function (event) {
+                $.getJSON(
+                    '/jsonData/Faculties.json',
+                    function (myObject) {
+                        console.log(myObject);
+                        var specialitytyDropDown = document.getElementById("SpecialityDropDown");
+                        while (specialitytyDropDown.firstChild) {
+                            specialitytyDropDown.removeChild(specialitytyDropDown.firstChild);
+                        }
+                        var currentElement = document.getElementById("FacultyDropDown");
+                        for (var elementNumber in selectedEducationFeeFaculties) {
+                            var facultyName = selectedEducationFeeFaculties[elementNumber].faculty;
+                            console.log(selectedEducationFeeFaculties[elementNumber].faculty);
+                            if (currentElement.options[currentElement.selectedIndex].text == facultyName) {
+                                for (var specialityNumber in selectedEducationFeeFaculties[elementNumber].specialties) {
+                                    var newOption = document.createElement("option");
+                                    var newOptionText = document.createTextNode(selectedEducationFeeFaculties[elementNumber].
+                                        specialties[specialityNumber].name);
+                                    newOption.appendChild(newOptionText);
+                                    specialitytyDropDown.appendChild(newOption);
+                                }
+                                break;
+                            }
+                        }
+                    });
+            });
+        });
+
+        $(document).ready(function () {
+            $.getJSON(
+                '/jsonData/Faculties.json',
+                function (myObject) {
+                    console.log(myObject);
+                    var currentElement = document.getElementById("EducationFeeDropDown");
+                    for (var elementNumber in myObject) {
+                        console.log(elementNumber);
+                        console.log(myObject[elementNumber]);
+                        var newOption = document.createElement("option");
+                        var newOptionText = document.createTextNode(myObject[elementNumber].educationFee);
+                        newOption.appendChild(newOptionText);
+                        currentElement.appendChild(newOption);
+                    }
+                });
+        });
+    </script>
 </head>
 
 <body>
-    <script src="~/Scripts/SpecialityDropDowns.js"></script>
     <style>
         .form-group {
             background-color: lightblue;
@@ -19,181 +103,179 @@
             font-size: 20px;
             font-weight: 700;
         }
+
         h2 {
             margin-top: 70px
         }
     </style>
     <div style="margin-left:32px; margin-right:32px; text-align:justify">
         @using (Html.BeginForm())
-    {
-        @Html.ValidationSummary()
-        <div style="text-align:center">
-            <h2 style="margin-top:20px">Personal Information</h2>
-        </div>
-        <div class="form-group">
-            <p>
-                Name:
-                @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
-            </p>
-            <p>
-                Second Name:
-                @Html.TextBoxFor(x => x.SecondName, new { @class = "form-control" })
-            </p>
-            <p>
-                Surname:
-                @Html.TextBoxFor(x => x.Surname, new { @class = "form-control" })
-            </p>
-            <p>
-                Date of The Birth:
-                @Html.TextBoxFor(x => x.DateOfTheBirth, new { @class = "form-control" })
-            </p>
-            <p>
-                Home Address:
-                @Html.TextBoxFor(x => x.HomeAddress, new { @class = "form-control" })
-            </p>
-            <p>
-                Mobile Phone:
-                @Html.TextBoxFor(x => x.MobilePhone, new { @class = "form-control" })
-            </p>
-        </div>
-
-        <div class="text-center">
-            <h2>Educational Information</h2>
-        </div>
-
-        <div class="form-group">
-            <div style="float:left; width:50%; padding-right:10px">
-                <p>Chosen Speciality:
-                <div id="specialityComboboxesDropDowns">
-                    <select id="EducationFeeDropDown" style="width:30%" onchange="AddFaculties()">
-                        <option>Free</option>
-                        <option>Paid</option>
-                    </select>
-                    <select id="FacultyDropDown" style="width:30%">
-                        <option>Choose an option</option>
-                    </select>
-                    @Html.DropDownListFor(x => x.Speciality, Enumerable.Empty<SelectListItem>(), "Choose an option", 
-                   new { @id = "SpecialityDropDown", @style = "width:30%" })
-                </div>
-                </p>
-                <p>Finished School Name: @Html.TextBoxFor(x => x.School, new { @class = "form-control" })</p>
-                <p>Year of Finishing The School: @Html.TextBoxFor(x => x.YearOfFinishingTheSchool, new { @class = "form-control" })</p>
-                <p>Learned Foreign Language: @Html.TextBoxFor(x => x.ForeignLanguage, new { @class = "form-control" })</p>
+        {
+            @Html.ValidationSummary()
+            <div style="text-align:center">
+                <h2 style="margin-top:20px">Personal Information</h2>
+            </div>
+            <div class="form-group">
                 <p>
-                    Do you need a dormitory: @Html.DropDownListFor(x => x.NeedsDormitory, new[] {
+                    Name:
+                    @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
+                </p>
+                <p>
+                    Second Name:
+                    @Html.TextBoxFor(x => x.SecondName, new { @class = "form-control" })
+                </p>
+                <p>
+                    Surname:
+                    @Html.TextBoxFor(x => x.Surname, new { @class = "form-control" })
+                </p>
+                <p>
+                    Date of The Birth:
+                    @Html.TextBoxFor(x => x.DateOfTheBirth, new { @class = "form-control" })
+                </p>
+                <p>
+                    Home Address:
+                    @Html.TextBoxFor(x => x.HomeAddress, new { @class = "form-control" })
+                </p>
+                <p>
+                    Mobile Phone:
+                    @Html.TextBoxFor(x => x.MobilePhone, new { @class = "form-control" })
+                </p>
+            </div>
+
+            <div class="text-center">
+                <h2>Educational Information</h2>
+            </div>
+
+            <div class="form-group">
+                <p>
+                    Chosen Speciality:
+                    <div id="specialityComboboxesDropDowns">
+                        <select id="EducationFeeDropDown" style="width:33%"></select>
+                        <select id="FacultyDropDown" style="width:33%">
+                            <option>Choose an option</option>
+                        </select>
+                        @Html.DropDownListFor(x => x.Speciality, Enumerable.Empty<SelectListItem>(), "Choose an option",
+                         new { @id = "SpecialityDropDown", @style = "width:33%" })
+                    </div>
+                </p>
+                <div style="float:left; width:50%; padding-right:10px">
+                    <p>Finished School Name: @Html.TextBoxFor(x => x.School, new { @class = "form-control" })</p>
+                    <p>Year of Finishing The School: @Html.TextBoxFor(x => x.YearOfFinishingTheSchool, new { @class = "form-control" })</p>
+                    <p>Learned Foreign Language: @Html.TextBoxFor(x => x.ForeignLanguage, new { @class = "form-control" })</p>
+                    <p>
+                        Do you need a dormitory: @Html.DropDownListFor(x => x.NeedsDormitory, new[] {
 new SelectListItem() {Text = "Yes", Value = bool.TrueString}, new SelectListItem(){Text="No", Value = bool.FalseString} },
 "Choose an option", new { @class = "form-control" })
-                </p>
-            </div>
-            <div style="float:right; width:50%; padding-left:10px">
-                <p>The Average School Score: @Html.TextBoxFor(x => x.AverageSchoolScore, new { @class = "form-control" }) </p>
-            </div>
-            <div style="clear:both">
+                    </p>
+                </div>
+                <div style="float:right; width:50%; padding-left:10px">
+                    <p>The Average School Score: @Html.TextBoxFor(x => x.AverageSchoolScore, new { @class = "form-control" }) </p>
+                </div>
+                <div style="clear:both">
 
+                </div>
             </div>
-        </div>
 
 
-        <div class="text-center">
-            <h2>Privileges</h2>
-        </div>
-        <div class="form-group">
-            <p>
-                Do you have privileges: @Html.DropDownListFor(x => x.HasPrivileges, new[] {
+            <div class="text-center">
+                <h2>Privileges</h2>
+            </div>
+            <div class="form-group">
+                <p>
+                    Do you have privileges: @Html.DropDownListFor(x => x.HasPrivileges, new[] {
 new SelectListItem() {Text = "Yes", Value = bool.TrueString}, new SelectListItem(){Text="No", Value = bool.FalseString} },
 "Choose an option", new { @class = "form-control", @id = "privilegesDropDown", @onchange = "showPrivelegesDefenition()" })
-            </p>
-            <script>
-                function showPrivelegesDefenition()
-                {
-                    var dropDown = document.getElementById("privilegesDropDown");
-                    if (dropDown.options[dropDown.selectedIndex].text == "Yes") {
-                        document.getElementById("privilegesDefenition").style.display = "block";
+                </p>
+                <script>
+                    function showPrivelegesDefenition() {
+                        var dropDown = document.getElementById("privilegesDropDown");
+                        if (dropDown.options[dropDown.selectedIndex].text == "Yes") {
+                            document.getElementById("privilegesDefenition").style.display = "block";
+                        }
+                        else {
+                            document.getElementById("privilegesDefenition").style.display = "none";
+                        }
                     }
-                    else {
-                        document.getElementById("privilegesDefenition").style.display = "none";
-                    }
-                }
-            </script>
-            <p id="privilegesDefenition" style="display:none">
-                Defenition of the Privileges: @Html.TextBoxFor(x => x.Privileges, new { @class = "form-control" })
-            </p>
-        </div>
+                </script>
+                <p id="privilegesDefenition" style="display:none">
+                    Defenition of the Privileges: @Html.TextBoxFor(x => x.Privileges, new { @class = "form-control" })
+                </p>
+            </div>
 
-        <div>
-            <div style="float:left; width:50%; padding-right:10px">
-                <div class="text-center">
-                    <h2>Entrant's Mother Information</h2>
-                </div>
+            <div>
+                <div style="float:left; width:50%; padding-right:10px">
+                    <div class="text-center">
+                        <h2>Entrant's Mother Information</h2>
+                    </div>
 
-                <div class="form-group">
-                    <p>
-                        Mother: @Html.DropDownListFor(x => x.HasMother, new[] {
+                    <div class="form-group">
+                        <p>
+                            Mother: @Html.DropDownListFor(x => x.HasMother, new[] {
 new SelectListItem() {Text = "Have got", Value = bool.TrueString}, new SelectListItem(){Text="Haven't got", Value = bool.FalseString} },
 "Choose an option", new { @class = "form-control", @id = "motherDropDown", @onchange = "showMotherInfo()" })
-                    </p>
-                    <script>
-                        function showMotherInfo() {
-                            var dropDown = document.getElementById("motherDropDown");
-                            if (dropDown.options[dropDown.selectedIndex].text == "Have got") {
-                                document.getElementById("motherInfo").style.display = "block";
+                        </p>
+                        <script>
+                            function showMotherInfo() {
+                                var dropDown = document.getElementById("motherDropDown");
+                                if (dropDown.options[dropDown.selectedIndex].text == "Have got") {
+                                    document.getElementById("motherInfo").style.display = "block";
+                                }
+                                else {
+                                    document.getElementById("motherInfo").style.display = "none";
+                                }
                             }
-                            else {
-                                document.getElementById("motherInfo").style.display = "none";
-                            }
-                        }
-                    </script>
-                    <div id="motherInfo" style="display:none">
-                        <p>Name: @Html.TextBoxFor(x => x.MotherName, new { @class = "form-control" }) </p>
-                        <p>Second Name: @Html.TextBoxFor(x => x.MotherSecondName, new { @class = "form-control" })</p>
-                        <p>Surname: @Html.TextBoxFor(x => x.MotherSurname, new { @class = "form-control" })</p>
-                        <p>Date of The Birth: @Html.TextBoxFor(x => x.MotherDateOfTheBirth, new { @class = "form-control" }) </p>
-                        <p>Home Address: @Html.TextBoxFor(x => x.MotherHomeAddress, new { @class = "form-control" })</p>
-                        <p>Mobile Phone: @Html.TextBoxFor(x => x.MotherMobilePhone, new { @class = "form-control" })</p>
-                        <p>Place of Work: @Html.TextBoxFor(x => x.MotherPlaceOfWork, new { @class = "form-control" })</p>
+                        </script>
+                        <div id="motherInfo" style="display:none">
+                            <p>Name: @Html.TextBoxFor(x => x.MotherName, new { @class = "form-control" }) </p>
+                            <p>Second Name: @Html.TextBoxFor(x => x.MotherSecondName, new { @class = "form-control" })</p>
+                            <p>Surname: @Html.TextBoxFor(x => x.MotherSurname, new { @class = "form-control" })</p>
+                            <p>Date of The Birth: @Html.TextBoxFor(x => x.MotherDateOfTheBirth, new { @class = "form-control" }) </p>
+                            <p>Home Address: @Html.TextBoxFor(x => x.MotherHomeAddress, new { @class = "form-control" })</p>
+                            <p>Mobile Phone: @Html.TextBoxFor(x => x.MotherMobilePhone, new { @class = "form-control" })</p>
+                            <p>Place of Work: @Html.TextBoxFor(x => x.MotherPlaceOfWork, new { @class = "form-control" })</p>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div style="float:right; width:50%; padding-left:10px">
-                <div class="text-center">
-                    <h2>Entrant's Father Information</h2>
-                </div>
-                <div class="form-group">
-                    <p>
-                        Father: @Html.DropDownListFor(x => x.HasFather, new[] {
+                <div style="float:right; width:50%; padding-left:10px">
+                    <div class="text-center">
+                        <h2>Entrant's Father Information</h2>
+                    </div>
+                    <div class="form-group">
+                        <p>
+                            Father: @Html.DropDownListFor(x => x.HasFather, new[] {
 new SelectListItem() {Text = "Have got", Value = bool.TrueString}, new SelectListItem(){Text="Haven't got", Value = bool.FalseString} },
 "Choose an option", new { @class = "form-control", @id = "fatherDropDown", @onchange = "showFatherInfo()" })
-                    </p>
-                    <script>
-                        function showFatherInfo() {
-                            var dropDown = document.getElementById("fatherDropDown");
-                            if (dropDown.options[dropDown.selectedIndex].text == "Have got") {
-                                document.getElementById("fatherInfo").style.display = "block";
+                        </p>
+                        <script>
+                            function showFatherInfo() {
+                                var dropDown = document.getElementById("fatherDropDown");
+                                if (dropDown.options[dropDown.selectedIndex].text == "Have got") {
+                                    document.getElementById("fatherInfo").style.display = "block";
+                                }
+                                else {
+                                    document.getElementById("fatherInfo").style.display = "none";
+                                }
                             }
-                            else {
-                                document.getElementById("fatherInfo").style.display = "none";
-                            }
-                        }
-                    </script>
-                    <div id="fatherInfo" style="display:none">
-                        <p>Name: @Html.TextBoxFor(x => x.FatherName, new { @class = "form-control" }) </p>
-                        <p>Second Name: @Html.TextBoxFor(x => x.FatherSecondName, new { @class = "form-control" })</p>
-                        <p>Surname: @Html.TextBoxFor(x => x.FatherSurname, new { @class = "form-control" })</p>
-                        <p>Date of The Birth: @Html.TextBoxFor(x => x.FatherDateOfTheBirth, new { @class = "form-control" }) </p>
-                        <p>Home Address: @Html.TextBoxFor(x => x.FatherHomeAddress, new { @class = "form-control" })</p>
-                        <p>Mobile Phone: @Html.TextBoxFor(x => x.FatherMobilePhone, new { @class = "form-control" })</p>
-                        <p>Place of Work: @Html.TextBoxFor(x => x.FatherPlaceOfWork, new { @class = "form-control" })</p>
+                        </script>
+                        <div id="fatherInfo" style="display:none">
+                            <p>Name: @Html.TextBoxFor(x => x.FatherName, new { @class = "form-control" }) </p>
+                            <p>Second Name: @Html.TextBoxFor(x => x.FatherSecondName, new { @class = "form-control" })</p>
+                            <p>Surname: @Html.TextBoxFor(x => x.FatherSurname, new { @class = "form-control" })</p>
+                            <p>Date of The Birth: @Html.TextBoxFor(x => x.FatherDateOfTheBirth, new { @class = "form-control" }) </p>
+                            <p>Home Address: @Html.TextBoxFor(x => x.FatherHomeAddress, new { @class = "form-control" })</p>
+                            <p>Mobile Phone: @Html.TextBoxFor(x => x.FatherMobilePhone, new { @class = "form-control" })</p>
+                            <p>Place of Work: @Html.TextBoxFor(x => x.FatherPlaceOfWork, new { @class = "form-control" })</p>
+                        </div>
                     </div>
                 </div>
+                <div style="clear:both"></div>
             </div>
-            <div style="clear:both"></div>
-        </div>
-        <div style="text-align:center">
-            <input class="btn-success" type="submit" value="Submit"/>
-        </div>
-            }
-        </div>
+            <div style="text-align:center">
+                <input class="btn-success" type="submit" value="Submit" />
+            </div>
+        }
+    </div>
 
 </body>
 
