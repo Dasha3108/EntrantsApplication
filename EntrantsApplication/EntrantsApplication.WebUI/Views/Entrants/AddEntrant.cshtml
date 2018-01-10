@@ -30,16 +30,16 @@
                         specialitytyDropDown.innerHTML = "<option>Choose an option</option>";
                         var currentElement = document.getElementById("EducationFeeDropDown");
                         for (var elementNumber in myObject) {
-                            var educationFeeName = myObject[elementNumber].educationFee;
+                            var educationFeeName = myObject[elementNumber].text;
                             if (currentElement.options[currentElement.selectedIndex].text == educationFeeName) {
-                                for (var facultyNumber in myObject[elementNumber].faculties) {
+                                for (var facultyNumber in myObject[elementNumber].children) {
                                     var newOption = document.createElement("option");
                                     var newOptionText = document.createTextNode(myObject[elementNumber].
-                                        faculties[facultyNumber].faculty);
+                                        children[facultyNumber].text);
                                     newOption.appendChild(newOptionText);
                                     facultyDropDown.appendChild(newOption);
                                 }
-                                selectedEducationFeeFaculties = myObject[elementNumber].faculties;
+                                selectedEducationFeeFaculties = myObject[elementNumber].children;
                                 break;
                             }
                         }
@@ -59,13 +59,13 @@
                         }
                         var currentElement = document.getElementById("FacultyDropDown");
                         for (var elementNumber in selectedEducationFeeFaculties) {
-                            var facultyName = selectedEducationFeeFaculties[elementNumber].faculty;
-                            console.log(selectedEducationFeeFaculties[elementNumber].faculty);
+                            var facultyName = selectedEducationFeeFaculties[elementNumber].text;
+                            console.log(selectedEducationFeeFaculties[elementNumber].text);
                             if (currentElement.options[currentElement.selectedIndex].text == facultyName) {
-                                for (var specialityNumber in selectedEducationFeeFaculties[elementNumber].specialties) {
+                                for (var specialityNumber in selectedEducationFeeFaculties[elementNumber].children) {
                                     var newOption = document.createElement("option");
                                     var newOptionText = document.createTextNode(selectedEducationFeeFaculties[elementNumber].
-                                        specialties[specialityNumber].name);
+                                        children[specialityNumber].text);
                                     newOption.appendChild(newOptionText);
                                     specialitytyDropDown.appendChild(newOption);
                                 }
@@ -86,7 +86,7 @@
                         console.log(elementNumber);
                         console.log(myObject[elementNumber]);
                         var newOption = document.createElement("option");
-                        var newOptionText = document.createTextNode(myObject[elementNumber].educationFee);
+                        var newOptionText = document.createTextNode(myObject[elementNumber].text);
                         newOption.appendChild(newOptionText);
                         currentElement.appendChild(newOption);
                     }
