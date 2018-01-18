@@ -9,92 +9,18 @@
     <link href="~/Content/bootstrap-theme.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="~/Content/Styles.css" />
     <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script type="text/javascript" src="~/Scripts/SpecialityDropDowns.js"></script>
 
-    <script type="text/javascript">
-        var selectedEducationFeeFaculties;
-
-        $(document).ready(function () {
-            $.getJSON(
-                '/jsonData/Faculties.json',
-                function (myObject) {
-                    console.log(myObject);
-                    var currentElement = document.getElementById("EducationFeeDropDown");
-                    for (var elementNumber in myObject) {
-                        console.log(elementNumber);
-                        console.log(myObject[elementNumber]);
-                        var newOption = document.createElement("option");
-                        var newOptionText = document.createTextNode(myObject[elementNumber].text);
-                        newOption.appendChild(newOptionText);
-                        currentElement.appendChild(newOption);
-                    }
-                });
-        });
-
-        $(document).ready(function () {
-            $("#EducationFeeDropDown").change(function (event) {
-                $.getJSON(
-                    '/jsonData/Faculties.json',
-                    function (myObject) {
-                        console.log(myObject);
-                        var facultyDropDown = document.getElementById("FacultyDropDown");
-                        while (facultyDropDown.firstChild) {
-                            facultyDropDown.removeChild(facultyDropDown.firstChild);
-                        }
-                        var specialitytyDropDown = document.getElementById("SpecialityDropDown");
-                        while (specialitytyDropDown.firstChild) {
-                            specialitytyDropDown.removeChild(specialitytyDropDown.firstChild);
-                        }
-                        specialitytyDropDown.innerHTML = "<option>Choose an option</option>";
-                        var currentElement = document.getElementById("EducationFeeDropDown");
-                        for (var elementNumber in myObject) {
-                            var educationFeeName = myObject[elementNumber].text;
-                            if (currentElement.options[currentElement.selectedIndex].text == educationFeeName) {
-                                for (var facultyNumber in myObject[elementNumber].children) {
-                                    var newOption = document.createElement("option");
-                                    var newOptionText = document.createTextNode(myObject[elementNumber].
-                                        children[facultyNumber].text);
-                                    newOption.appendChild(newOptionText);
-                                    facultyDropDown.appendChild(newOption);
-                                }
-                                selectedEducationFeeFaculties = myObject[elementNumber].children;
-                                break;
-                            }
-                        }
-                    });
-            });
-        });
-
-        $(document).ready(function () {
-            $("#FacultyDropDown").change(function (event) {
-                $.getJSON(
-                    '/jsonData/Faculties.json',
-                    function (myObject) {
-                        console.log(myObject);
-                        var specialitytyDropDown = document.getElementById("SpecialityDropDown");
-                        while (specialitytyDropDown.firstChild) {
-                            specialitytyDropDown.removeChild(specialitytyDropDown.firstChild);
-                        }
-                        var currentElement = document.getElementById("FacultyDropDown");
-                        for (var elementNumber in selectedEducationFeeFaculties) {
-                            var facultyName = selectedEducationFeeFaculties[elementNumber].text;
-                            console.log(selectedEducationFeeFaculties[elementNumber].text);
-                            if (currentElement.options[currentElement.selectedIndex].text == facultyName) {
-                                for (var specialityNumber in selectedEducationFeeFaculties[elementNumber].children) {
-                                    var newOption = document.createElement("option");
-                                    var newOptionText = document.createTextNode(selectedEducationFeeFaculties[elementNumber].
-                                        children[specialityNumber].text);
-                                    newOption.appendChild(newOptionText);
-                                    specialitytyDropDown.appendChild(newOption);
-                                }
-                                break;
-                            }
-                        }
-                    });
-            });
-        });       
+    <script>
+        function AddChosenEntrantSpeciality () {
+            var specialityDropDown = document.getElementById("SpecialityDropDown");
+            specialityDropDown.innerHTML += "<option>@Model.Speciality</option>";
+            specialityDropDown.selectedIndex = 1;
+        }
     </script>
 </head>
-<body>
+<body onload="AddSpecialities(), showFatherInfo(), showMotherInfo(), showPrivelegesDefenition(),
+        AddChosenEntrantSpeciality()">
 
         <div style="margin-left:32px; margin-right:32px; text-align:justify">
             @using (Html.BeginForm("EditEntrantInformation", "Entrants", Model))
@@ -174,17 +100,6 @@ new SelectListItem() {Text = "Yes", Value = bool.TrueString}, new SelectListItem
 new SelectListItem() {Text = "Yes", Value = bool.TrueString}, new SelectListItem(){Text="No", Value = bool.FalseString} },
 "Choose an option", new { @class = "form-control", @id = "privilegesDropDown", @onchange = "showPrivelegesDefenition()" })
             </p>
-            <script>
-                function showPrivelegesDefenition() {
-                    var dropDown = document.getElementById("privilegesDropDown");
-                    if (dropDown.options[dropDown.selectedIndex].text == "Yes") {
-                        document.getElementById("privilegesDefenition").style.display = "block";
-                    }
-                    else {
-                        document.getElementById("privilegesDefenition").style.display = "none";
-                    }
-                }
-            </script>
             <p id="privilegesDefenition" style="display:none">
                 Defenition of the Privileges: @Html.TextBoxFor(x => x.Privileges, new { @class = "form-control" })
             </p>
@@ -202,17 +117,6 @@ new SelectListItem() {Text = "Yes", Value = bool.TrueString}, new SelectListItem
 new SelectListItem() {Text = "Have got", Value = bool.TrueString}, new SelectListItem(){Text="Haven't got", Value = bool.FalseString} },
 "Choose an option", new { @class = "form-control", @id = "motherDropDown", @onchange = "showMotherInfo()" })
                     </p>
-                    <script>
-                        function showMotherInfo() {
-                            var dropDown = document.getElementById("motherDropDown");
-                            if (dropDown.options[dropDown.selectedIndex].text == "Have got") {
-                                document.getElementById("motherInfo").style.display = "block";
-                            }
-                            else {
-                                document.getElementById("motherInfo").style.display = "none";
-                            }
-                        }
-                    </script>
                     <div id="motherInfo" style="display:none">
                         <p>Name: @Html.TextBoxFor(x => x.MotherName, new { @class = "form-control" }) </p>
                         <p>Second Name: @Html.TextBoxFor(x => x.MotherSecondName, new { @class = "form-control" })</p>
@@ -235,17 +139,6 @@ new SelectListItem() {Text = "Have got", Value = bool.TrueString}, new SelectLis
 new SelectListItem() {Text = "Have got", Value = bool.TrueString}, new SelectListItem(){Text="Haven't got", Value = bool.FalseString} },
 "Choose an option", new { @class = "form-control", @id = "fatherDropDown", @onchange = "showFatherInfo()" })
                     </p>
-                    <script>
-                        function showFatherInfo() {
-                            var dropDown = document.getElementById("fatherDropDown");
-                            if (dropDown.options[dropDown.selectedIndex].text == "Have got") {
-                                document.getElementById("fatherInfo").style.display = "block";
-                            }
-                            else {
-                                document.getElementById("fatherInfo").style.display = "none";
-                            }
-                        }
-                    </script>
                     <div id="fatherInfo" style="display:none">
                         <p>Name: @Html.TextBoxFor(x => x.FatherName, new { @class = "form-control" }) </p>
                         <p>Second Name: @Html.TextBoxFor(x => x.FatherSecondName, new { @class = "form-control" })</p>

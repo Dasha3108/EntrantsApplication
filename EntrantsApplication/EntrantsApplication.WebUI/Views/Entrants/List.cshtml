@@ -11,11 +11,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+    <link href="~/Content/Styles.css" rel="stylesheet" />
 </head>
 <body>
     <script src="~/Scripts/FilterTreeView.js"></script>
     <div class="content">
-        <h3 style="margin-left:20px"><a>@Html.ActionLink("Return to Main Menu", "MainMenu")</a></h3>
+        <h3 style="margin-left:20px; text-align:left; font-weight:400">
+            <a>@Html.ActionLink("Return to Main Menu", "MainMenu")</a>
+        </h3>
         <div style="margin-top: -65px; display: flex; justify-content: center;">
             <h1 style="text-align: center;">List of the Entrants</h1>
         </div>
@@ -41,7 +44,7 @@
                 });
             });
         </script>
-        <div class="form-group">
+        <div>
             <div id="filterTreeView" style="float:left; width:30%; padding-right:10px; display:none">
                 <p style="margin-left:20px; font-size:20px; font-weight:700">Filter</p>
                 <div style="margin-left:20px" id="jstree"></div>
@@ -67,57 +70,43 @@ new { entrantId = item.EntrantId }))
 
                     if (item.SelectedEntrant)
                     {
-                        <div class="text-center">
-                            <p>Personal Information</p>
-                        </div>
-                        <div class="form-group">
+                        <h3>
+                            Personal Information
+                        </h3>
+                        <div class="form-list-group">
                             <p>Name: @Html.DisplayFor(x => item.EntrantName, new { @class = "form-control" }) </p>
-                        </div>
-                        <div class="form-group">
                             <p>Date of The Birth: @Html.DisplayFor(x => item.DateOfTheBirth, new { @class = "form-control" }) </p>
-                        </div>
-                        <div class="form-group">
                             <p>Home Address: @Html.DisplayFor(x => item.HomeAddress, new { @class = "form-control" })</p>
-                        </div>
-                        <div class="form-group">
                             <p>Mobile Phone: @Html.DisplayFor(x => item.MobilePhone, new { @class = "form-control" })</p>
                         </div>
 
-                        <div class="text-center">
-                            <p>Educational Information</p>
-                        </div>
+                        <h3>
+                            Educational Information
+                        </h3>
 
-                        <div class="form-group">
+                        <div class="form-list-group">
                             <p>Chosen Speciality: @Html.DisplayFor(x => item.Speciality, new { @class = "form-control" }) </p>
-                        </div>
-                        <div class="form-group">
                             <p>Finished School Name: @Html.DisplayFor(x => item.School, new { @class = "form-control" })</p>
-                        </div>
-                        <div class="form-group">
                             <p>Year of Finishing The School: @Html.DisplayFor(x => item.YearOfFinishingTheSchool, new { @class = "form-control" })</p>
-                        </div>
-                        <div class="form-group">
                             <p>The Average School Score: @Html.DisplayFor(x => item.AverageSchoolScore, new { @class = "form-control" }) </p>
-                        </div>
-                        <div class="form-group">
                             <p>Learned Foreign Language: @Html.DisplayFor(x => item.ForeignLanguage, new { @class = "form-control" })</p>
+                            <p>
+                                Need in dormitory:
+                                @if (item.NeedsDormitory)
+                                 {
+                                    @:In Need
+                                 }
+                                 else
+                                 {
+                                    @:No Need
+                                 }
+                            </p>
                         </div>
-                        <p>
-                            Need in dormitory:
-                            @if (item.NeedsDormitory)
-                            {
-                                @:In Need
-                            }
-                            else
-                            {
-                                @:No Need
-                            }
-                        </p>
 
-                        <div class="text-center">
-                            <p>Privileges: </p>
-                        </div>
-                        <div class="form-group">
+                        <h3>
+                            Privileges
+                        </h3>
+                        <div class="form-list-group">
                             @if (item.HasPrivileges)
                             {
                                 @Html.DisplayFor(modelItem => item.Privileges);
@@ -125,13 +114,7 @@ new { entrantId = item.EntrantId }))
                             else
                             {
                                 <p>The entrant hasn't got any privileges.</p>
-                                <p></p>
                             }
-                            <p>
-                        </div>
-
-                        <div class="text-center">
-                            <p>Entrant's Mother Information</p>
                         </div>
                     }
                 }
