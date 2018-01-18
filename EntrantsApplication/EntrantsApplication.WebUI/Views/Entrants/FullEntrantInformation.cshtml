@@ -7,38 +7,39 @@
 <head>
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
     <link href="~/Content/bootstrap-theme.css" rel="stylesheet" />
+    <link href="~/Content/Styles.css" rel="stylesheet" />
 </head>
 
 <body>
-    <div class="panel panel-success">
-        <div class="panel-body">
-            <div class="text-center" style="display: flex; flex-direction: column; align-items: center;">
-                <h1>
-                    @Html.DisplayFor(modelItem => Model.Name)
-                    @Html.DisplayFor(modelItem => Model.SecondName)
-                    @Html.DisplayFor(modelItem => Model.Surname)
-                    Full Information
-                </h1>
-                <div  class="form-container" style="width: 220px; display: flex; justify-content: space-around;">
+    <div class="panel-body">
+        <div class="text-center" style="display: flex; flex-direction: column; align-items: center;">
+            <h1>
+                @Html.DisplayFor(modelItem => Model.Name)
+                @Html.DisplayFor(modelItem => Model.SecondName)
+                @Html.DisplayFor(modelItem => Model.Surname)
+                Full Information
+            </h1>
+            <div class="form-container" style="width: 220px; display: flex; justify-content: space-around;">
 
-                    @using (Html.BeginForm("EditEntrant", "Entrants", new { entrantId = Model.EntrantId }))
-    {
+                @using (Html.BeginForm("EditEntrant", "Entrants", new { entrantId = Model.EntrantId }))
+            {
                 @Html.HiddenFor(modelItem => Model.EntrantId)
-                <input type="submit" class="btn btn-success" value="Edit" />
-}
-                    @using (Html.BeginForm("DeleteEntrant", "Entrants", new { entrantId = Model.EntrantId }))
-    {
+                <input style="margin-right:20px" type="submit" class="btn-success" value="Edit" />
+        }
+                @using (Html.BeginForm("DeleteEntrant", "Entrants", new { entrantId = Model.EntrantId }))
+            {
                 @Html.HiddenFor(modelItem => Model.EntrantId)
-                <input type="submit" class="btn btn-success" value="Delete" />
-}
-                </div>
-              
+                <input type="submit" class="btn-success" value="Delete" />
+        }
             </div>
 
+        </div>
 
 
-            <h2>Personal Information</h2>
-            <table class="table table-bordered table-responsive table-hover">
+
+        <h3>Personal Information</h3>
+        <div class="info-table">
+            <table class="table table-bordered">
                 <tr>
                     <th>
                         Name
@@ -51,9 +52,6 @@
                     </th>
                     <th>
                         Date of The Birth
-                    </th>
-                    <th>
-                        Home Address
                     </th>
                     <th>
                         Mobile Phone
@@ -74,17 +72,27 @@
                         @Html.DisplayFor(modelItem => Model.DateOfTheBirth)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => Model.HomeAddress)
-                    </td>
-                    <td>
                         @Html.DisplayFor(modelItem => Model.MobilePhone)
                     </td>
                 </tr>
-
             </table>
+            <table class="table table-bordered">
+                <tr>
+                    <th>
+                        Home Address
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.HomeAddress)
+                    </td>
+                </tr>
+            </table>
+        </div>
 
-            <h2>Educational Information</h2>
-            <table class="table table-bordered table-responsive table-hover">
+        <h3>Educational Information</h3>
+        <div class="info-table">
+            <table class="table table-bordered">
                 <tr>
                     <th>
                         Speciality
@@ -124,146 +132,151 @@
                     </td>
                     <td>
                         @if (Model.NeedsDormitory)
+                    {
+                        @:In Need
+                }
+                else
                 {
-                    @:In Need
-        }
-        else
-        {
-            @:No Need
+                    @:No Need
 }
                     </td>
                 </tr>
 
             </table>
-            @if (Model.HasPrivileges)
-    {
-        <p></p>
-        <h2>Privileges:</h2>
-        @Html.DisplayFor(modelItem => Model.Privileges);
-}
-else
-{
-        <p>The entrant hasn't got any privileges.</p>
-        <p></p>
-}
-
-            @if (Model.HasMother)
-    {
-        <h2>Entrant's Mother Information</h2>
-        <table class="table table-bordered table-responsive table-hover">
-            <tr>
-                <th>
-                    Name
-                </th>
-                <th>
-                    Second Name
-                </th>
-                <th>
-                    Surname
-                </th>
-                <th>
-                    The Date of The Birth
-                </th>
-                <th>
-                    Home Address
-                </th>
-                <th>
-                    Mobile Phone
-                </th>
-                <th>
-                    Place of Work
-                </th>
-            </tr>
-
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => Model.MotherName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => Model.MotherSecondName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => Model.MotherSurname)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => Model.MotherDateOfTheBirth)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => Model.MotherHomeAddress)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => Model.MotherMobilePhone)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => Model.MotherPlaceOfWork)
-                </td>
-            </tr>
-
-        </table>
-}
-else
-{
-        <p>The entrant hasn't got a mother.</p>
-}
-
-            @if (Model.HasFather)
-    {
-        <h2>Entrant's Father Information</h2>
-        <table class="table table-bordered table-responsive table-hover">
-            <tr>
-                <th>
-                    Name
-                </th>
-                <th>
-                    Second Name
-                </th>
-                <th>
-                    Surname
-                </th>
-                <th>
-                    The Date of The Birth
-                </th>
-                <th>
-                    Home Address
-                </th>
-                <th>
-                    Mobile Phone
-                </th>
-                <th>
-                    Place of Work
-                </th>
-            </tr>
-
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => Model.FatherName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => Model.FatherSecondName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => Model.FatherSurname)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => Model.FatherDateOfTheBirth)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => Model.FatherHomeAddress)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => Model.FatherMobilePhone)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => Model.FatherPlaceOfWork)
-                </td>
-            </tr>
-
-        </table>
-}
-else
-{
-        <p>The entrant hasn't got a father.</p>
-}
         </div>
-    </div>
+        @if (Model.HasPrivileges)
+    {
+        <p></p>
+        <h3>Privileges</h3>
+        <div style="margin-left:25%; font-size:medium">
+            @Html.DisplayFor(modelItem => Model.Privileges)
+        </div>
+}
+
+        @if (Model.HasMother)
+    {
+        <h3>Entrant's Mother Information</h3>
+        <div class="info-table">
+            <table class="table table-bordered">
+                <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Second Name
+                    </th>
+                    <th>
+                        Surname
+                    </th>
+                    <th>
+                        The Date of The Birth
+                    </th>
+                    <th>
+                        Mobile Phone
+                    </th>
+                    <th>
+                        Place of Work
+                    </th>
+                </tr>
+
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.MotherName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.MotherSecondName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.MotherSurname)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.MotherDateOfTheBirth)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.MotherMobilePhone)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.MotherPlaceOfWork)
+                    </td>
+                </tr>
+
+            </table>
+            <table class="table table-bordered">
+                <tr>
+                    <th>
+                        Home Address
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.MotherHomeAddress)
+                    </td>
+                </tr>
+            </table>
+        </div>
+}
+
+        @if (Model.HasFather)
+    {
+        <h3>Entrant's Father Information</h3>
+        <div class="info-table">
+            <table class="table table-bordered">
+                <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Second Name
+                    </th>
+                    <th>
+                        Surname
+                    </th>
+                    <th>
+                        The Date of The Birth
+                    </th>
+                    <th>
+                        Mobile Phone
+                    </th>
+                    <th>
+                        Place of Work
+                    </th>
+                </tr>
+
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.FatherName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.FatherSecondName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.FatherSurname)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.FatherDateOfTheBirth)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.FatherMobilePhone)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.FatherPlaceOfWork)
+                    </td>
+                </tr>
+
+            </table>
+            <table class="table table-bordered">
+                <tr>
+                    <th>
+                        Home Address
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.FatherHomeAddress)
+                    </td>
+                </tr>
+            </table>
+        </div>
+            }
+        </div>
 </body>

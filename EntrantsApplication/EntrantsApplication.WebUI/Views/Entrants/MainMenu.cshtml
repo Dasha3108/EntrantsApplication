@@ -5,16 +5,22 @@
 <head>
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
     <link href="~/Content/bootstrap-theme.css" rel="stylesheet" />
+    <link href="~/Content/Styles.css" rel="stylesheet" />
 </head>
 
 <body>
+
     <div class="text-center">
         <h1>Entrants Database</h1>
 
-        <input class="btn-success" type="button" value="Add an entrant" onclick="location.href='@Url.Action("AddEntrant")'" />
-
-        <input class="btn-success" type="button" value="Watch the list" onclick="location.href='@Url.Action("List")'" />
-        
+        <div style="margin-bottom:20px; margin-top:20px;">
+            <input class="btn-success" type="button" value="Add an entrant"
+                   onclick="location.href='@Url.Action("AddEntrant")'" />
+        </div>
+        <div style="margin-bottom:20px;">
+            <input class="btn-success" type="button" value="Watch the list" 
+                   onclick="location.href='@Url.Action("List")'" />
+        </div>
     </div>
 </body>
 
