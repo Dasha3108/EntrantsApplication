@@ -44,7 +44,7 @@
             </p>
             <p>
                 Date of The Birth:
-                @Html.TextBoxFor(x => x.DateOfTheBirth, new { @class = "form-control" })
+                @Html.TextBoxFor(x => x.DateOfTheBirth, "{0:d.MM.yyyy}", new { @class = "form-control" })
             </p>
             <p>
                 Home Address:
@@ -63,7 +63,7 @@
         <div class="form-group">
             <p>
                 Chosen Speciality:
-                <div id="specialityComboboxesDropDowns">
+                <div id="specialityComboboxesDropDowns" style="display:flex; justify-content:space-between">
                     <select id="EducationFeeDropDown" style="width:33%"></select>
                     <select id="FacultyDropDown" style="width:33%">
                         <option>Choose an option</option>
@@ -121,7 +121,8 @@ new SelectListItem() {Text = "Have got", Value = bool.TrueString}, new SelectLis
                         <p>Name: @Html.TextBoxFor(x => x.MotherName, new { @class = "form-control" }) </p>
                         <p>Second Name: @Html.TextBoxFor(x => x.MotherSecondName, new { @class = "form-control" })</p>
                         <p>Surname: @Html.TextBoxFor(x => x.MotherSurname, new { @class = "form-control" })</p>
-                        <p>Date of The Birth: @Html.TextBoxFor(x => x.MotherDateOfTheBirth, new { @class = "form-control" }) </p>
+                        <p>Date of The Birth: @Html.TextBoxFor(x => x.MotherDateOfTheBirth, "{0:d.MM.yyyy}",
+                                             new { @class = "form-control" }) </p>
                         <p>Home Address: @Html.TextBoxFor(x => x.MotherHomeAddress, new { @class = "form-control" })</p>
                         <p>Mobile Phone: @Html.TextBoxFor(x => x.MotherMobilePhone, new { @class = "form-control" })</p>
                         <p>Place of Work: @Html.TextBoxFor(x => x.MotherPlaceOfWork, new { @class = "form-control" })</p>
@@ -143,7 +144,8 @@ new SelectListItem() {Text = "Have got", Value = bool.TrueString}, new SelectLis
                         <p>Name: @Html.TextBoxFor(x => x.FatherName, new { @class = "form-control" }) </p>
                         <p>Second Name: @Html.TextBoxFor(x => x.FatherSecondName, new { @class = "form-control" })</p>
                         <p>Surname: @Html.TextBoxFor(x => x.FatherSurname, new { @class = "form-control" })</p>
-                        <p>Date of The Birth: @Html.TextBoxFor(x => x.FatherDateOfTheBirth, new { @class = "form-control" }) </p>
+                        <p>Date of The Birth: @Html.TextBoxFor(x => x.FatherDateOfTheBirth, "{0:d.MM.yyyy}",
+                                             new { @class = "form-control" }) </p>
                         <p>Home Address: @Html.TextBoxFor(x => x.FatherHomeAddress, new { @class = "form-control" })</p>
                         <p>Mobile Phone: @Html.TextBoxFor(x => x.FatherMobilePhone, new { @class = "form-control" })</p>
                         <p>Place of Work: @Html.TextBoxFor(x => x.FatherPlaceOfWork, new { @class = "form-control" })</p>

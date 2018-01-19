@@ -51,6 +51,7 @@
     <Compile Include="Concrete\EFDbContext.cs" />
     <Compile Include="Concrete\EFEntrantsRepository.cs" />
     <Compile Include="Entities\Entrant.cs" />
+    <Compile Include="Entities\Speciality.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

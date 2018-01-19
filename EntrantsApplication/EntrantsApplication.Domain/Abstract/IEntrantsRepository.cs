@@ -10,6 +10,7 @@ namespace EntrantsApplication.Domain.Abstract
     public interface IEntrantsRepository
     {
         IEnumerable<Entrant> Entrants { get; }
+        IEnumerable<Speciality> Specialities { get; }
 
         void EditEntrant(Entrant entrant);
 

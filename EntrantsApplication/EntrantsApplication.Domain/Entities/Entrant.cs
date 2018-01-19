@@ -22,7 +22,8 @@ namespace EntrantsApplication.Domain.Entities
         [Required(ErrorMessage = "Please enter your second name")]
         public string SecondName { get; set; }
         [Required(ErrorMessage = "Please enter your surname")]
-        public string Surname { get; set; }        
+        public string Surname { get; set; }
+        [DisplayFormat(DataFormatString = "{0:d.MM.yyyy}", ApplyFormatInEditMode = true)]
         public DateTime DateOfTheBirth { get; set; }
         public string Speciality { get; set; }
         public string HomeAddress { get; set; }
