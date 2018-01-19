@@ -59,3 +59,9 @@ th {
     font-weight: 500;
 }
 
+#jstree{
+    overflow-x:auto;
+    width:auto;
+    white-space:nowrap;
+}
+

@@ -13,6 +13,7 @@ namespace EntrantsApplication.Domain.Concrete
         private EFDbContext _entrantsContext = new EFDbContext();
 
         public IEnumerable<Entrant> Entrants { get { return _entrantsContext.Entrants; } }
+        public IEnumerable<Speciality> Specialities { get { return _entrantsContext.Specialities; } }
 
         public void EditEntrant(Entrant entrant)
         {

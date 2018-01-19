@@ -13,13 +13,14 @@ namespace EntrantsApplication.WebUI.Controllers
     public class EntrantsController : Controller
     {
         IEntrantsRepository _entrantsRepository;
-        List<ListViewEntrant> _listViewEntrants = null;
+        ListViewEntrants _listViewEntrants = null;
 
         public EntrantsController()
-        {
+        {            
             _entrantsRepository = new EFEntrantsRepository();
+            _listViewEntrants = new ListViewEntrants() { Entrants = _entrantsRepository.Entrants,
+                Specialities = _entrantsRepository.Specialities };
         }
-        // GET: Entrants
 
         public ActionResult MainMenu()
         {
@@ -46,22 +47,14 @@ namespace EntrantsApplication.WebUI.Controllers
 
         public ViewResult List(int? entrantId, Entrant deletedEntrant)
         {
-            if (_listViewEntrants == null && (_entrantsRepository.Entrants.Count() != 0))
-            {
-                _listViewEntrants = new List<ListViewEntrant>();
-                foreach (var entrant in _entrantsRepository.Entrants)
-                {
-                    _listViewEntrants.Add(new ListViewEntrant(entrant));
-                }
-            }
             if (deletedEntrant.Name != null)
             {
                 _entrantsRepository.SaveEntrant(deletedEntrant);
-                _listViewEntrants.Add(new ListViewEntrant(deletedEntrant));
+                return View(_listViewEntrants);
             }
             else if (entrantId != null)
             {
-                _listViewEntrants.FirstOrDefault(x => x.EntrantId == entrantId).
+                _listViewEntrants.getListViewEntrants().FirstOrDefault(x => x.EntrantId == entrantId).
                     SelectedEntrant = true;
             }
             return View(_listViewEntrants);
