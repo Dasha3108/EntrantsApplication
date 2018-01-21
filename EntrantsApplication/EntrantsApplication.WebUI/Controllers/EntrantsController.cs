@@ -14,9 +14,9 @@ namespace EntrantsApplication.WebUI.Controllers
     {
         IEntrantsRepository _entrantsRepository;
         ListViewEntrants _listViewEntrants = null;
-
+      
         public EntrantsController()
-        {            
+        {                        
             _entrantsRepository = new EFEntrantsRepository();
             _listViewEntrants = new ListViewEntrants() { Entrants = _entrantsRepository.Entrants,
                 Specialities = _entrantsRepository.Specialities };
@@ -45,19 +45,34 @@ namespace EntrantsApplication.WebUI.Controllers
                 return View();
         }
 
+        [HttpGet]
         public ViewResult List(int? entrantId, Entrant deletedEntrant)
         {
             if (deletedEntrant.Name != null)
             {
                 _entrantsRepository.SaveEntrant(deletedEntrant);
-                return View(_listViewEntrants);
+                return View(_listViewEntrants.getListViewEntrants());
             }
             else if (entrantId != null)
             {
                 _listViewEntrants.getListViewEntrants().FirstOrDefault(x => x.EntrantId == entrantId).
                     SelectedEntrant = true;
             }
-            return View(_listViewEntrants);
+            return View(_listViewEntrants.getListViewEntrants());
+        }
+
+        //[HttpPost]
+        //public ViewResult List(string[] model)
+        //{
+        //    _listViewEntrants.Entrants = _listViewEntrants.getFilteredEntrants(model, _entrantsRepository);          
+        //    return View(_listViewEntrants);
+        //}
+
+        [HttpPost]
+        public JsonResult List(string[] model)
+        {
+           // _listViewEntrants.Entrants = _listViewEntrants.getFilteredEntrants(model, _entrantsRepository);
+            return Json(_listViewEntrants.getFilteredEntrants(model, _entrantsRepository), JsonRequestBehavior.AllowGet);
         }
 
         public ViewResult FullEntrantInformation(int entrantId)
