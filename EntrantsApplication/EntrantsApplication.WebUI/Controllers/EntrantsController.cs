@@ -61,17 +61,9 @@ namespace EntrantsApplication.WebUI.Controllers
             return View(_listViewEntrants.getListViewEntrants());
         }
 
-        //[HttpPost]
-        //public ViewResult List(string[] model)
-        //{
-        //    _listViewEntrants.Entrants = _listViewEntrants.getFilteredEntrants(model, _entrantsRepository);          
-        //    return View(_listViewEntrants);
-        //}
-
         [HttpPost]
         public JsonResult List(string[] model)
         {
-           // _listViewEntrants.Entrants = _listViewEntrants.getFilteredEntrants(model, _entrantsRepository);
             return Json(_listViewEntrants.getFilteredEntrants(model, _entrantsRepository), JsonRequestBehavior.AllowGet);
         }
 

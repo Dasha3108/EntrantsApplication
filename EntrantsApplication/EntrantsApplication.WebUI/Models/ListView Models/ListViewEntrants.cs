@@ -39,38 +39,23 @@ namespace EntrantsApplication.WebUI.Models.ListView_Models
             }
         }
 
-        public IEnumerable<ListViewEntrant> getFilteredEntrants(string[] nodesNames, IEntrantsRepository entrantsRepository)
+        public IEnumerable<ListViewEntrant> getFilteredEntrants(string[] nodesIds, IEntrantsRepository entrantsRepository)
         {
             var listViewEntrants = new List<ListViewEntrant>();
-            if (nodesNames != null)
-                foreach (var nodeName in nodesNames)
+            if (nodesIds != null)
+                foreach (var nodeId in nodesIds)
                 {
                     IEnumerable<Entrant> entrants;
-                    if (nodeName == "Free" || nodeName == "Paid")
+                    if (nodeId.Contains("s"))
                     {
-                        entrants = entrantsRepository.getEntrantsFromDatabaseByEducationFee(nodeName);
-                    }
-                    else if (nodeName.Contains("Faculty"))
-                    {
-                        entrants = entrantsRepository.getEntrantsFromDatabaseByFaculty(nodeName);
-                    }
-                    else
-                    {
-                        entrants = entrantsRepository.getEntrantsFromDatabaseBySpeciality(nodeName);                        
-                    }
-                    if (entrants != null)
+                        entrants = entrantsRepository.getEntrantsFromDatabaseBySpeciality(nodeId);
                         foreach (var entrant in entrants)
                         {
-                            //listViewEntrants.Add(entrant);
                             listViewEntrants.Add(new ListViewEntrant(entrant));
                         }
+                    }
                 }
             return listViewEntrants;
-        }
-
-        public void FindEntrantsInDatabase(string nodeName)
-        {
-
         }
     }
 }

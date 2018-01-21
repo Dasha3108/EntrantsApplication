@@ -12,9 +12,54 @@
     <script type="text/javascript" src="~/Scripts/SpecialityDropDowns.js"></script>
 
     <script>
-        function AddChosenEntrantSpeciality () {
+        function AddChosenEntrantSpeciality() {
+            $(document).ready(function () {
+                $.getJSON(
+                    '/jsonData/Faculties.json',
+                    function (myObject) {
+                        console.log(myObject);
+                        var currentElement = document.getElementById("EducationFeeDropDown");
+                        currentElement.innerHTML = "<option>Choose an option</option>";
+                        for (var elementNumber in myObject) {
+                            console.log(elementNumber);
+                            console.log(myObject[elementNumber]);
+                            var newOption = document.createElement("option");
+                            var newOptionText = document.createTextNode(myObject[elementNumber].text);
+                            newOption.appendChild(newOptionText);
+                            currentElement.appendChild(newOption);
+                        }
+                        @if(Model.EducationFee == "Free")
+                        {
+                            @: currentElement.selectedIndex = 1;
+                        }
+                        else
+                        {
+                            @: currentElement.selectedIndex = 2; 
+                        }
+                        var facultyDropDown = document.getElementById("FacultyDropDown");
+                        while (facultyDropDown.firstChild) {
+                            facultyDropDown.removeChild(facultyDropDown.firstChild);
+                        }
+                        facultyDropDown.innerHTML = "<option>Choose an option</option>";
+                        var currentElement = document.getElementById("EducationFeeDropDown");
+                        for (var elementNumber in myObject) {
+                            var educationFeeName = myObject[elementNumber].text;
+                            if (currentElement.options[currentElement.selectedIndex].text == educationFeeName) {
+                                for (var facultyNumber in myObject[elementNumber].children) {
+                                    var newOption = document.createElement("option");
+                                    var newOptionText = document.createTextNode(myObject[elementNumber].
+                                        children[facultyNumber].text);
+                                    newOption.appendChild(newOptionText);
+                                    facultyDropDown.appendChild(newOption);
+                                }
+                                break;
+                            }
+                        }
+                    });
+            });;
+
             var specialityDropDown = document.getElementById("SpecialityDropDown");
-            specialityDropDown.innerHTML += "<option>@Model.Speciality</option>";
+            specialityDropDown.innerHTML += "<option>@Model.SpecialityName</option>";
             specialityDropDown.selectedIndex = 1;
         }
     </script>
@@ -64,12 +109,13 @@
             <p>
                 Chosen Speciality:
                 <div id="specialityComboboxesDropDowns" style="display:flex; justify-content:space-between">
-                    <select id="EducationFeeDropDown" style="width:33%"></select>
+                    @Html.DropDownListFor(x => x.EducationFee, Enumerable.Empty<SelectListItem>(), "Choose an option",
+new { @id = "EducationFeeDropDown", @style = "width:33%" })
                     <select id="FacultyDropDown" style="width:33%">
                         <option>Choose an option</option>
                     </select>
-                    @Html.DropDownListFor(x => x.Speciality, Enumerable.Empty<SelectListItem>(), "Choose an option",
-               new { @id = "SpecialityDropDown", @style = "width:33%" })
+                    @Html.DropDownListFor(x => x.SpecialityName, Enumerable.Empty<SelectListItem>(), "Choose an option",
+    new { @id = "SpecialityDropDown", @style = "width:33%" })
                 </div>
             </p>
             <div style="float:left; width:50%; padding-right:10px">

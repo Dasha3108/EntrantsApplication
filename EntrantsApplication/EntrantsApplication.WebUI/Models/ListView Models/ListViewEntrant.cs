@@ -26,7 +26,8 @@ namespace EntrantsApplication.WebUI.Models.ListView_Models
         [DisplayFormat(DataFormatString = "{0:d.MM.yyyy}")]
         public DateTime DateOfTheBirth { get { return _databaseEntrant.DateOfTheBirth; } }
 
-        public string Speciality { get { return _databaseEntrant.Speciality; } }
+        public string EducationFee { get { return _databaseEntrant.EducationFee; } }
+        public string Speciality { get { return _databaseEntrant.SpecialityName; } }
         //[Required(ErrorMessage = "Please enter your home address")]
         public string HomeAddress { get { return _databaseEntrant.HomeAddress; } }
         //[Required(ErrorMessage = "Please enter your mobile phone")]
