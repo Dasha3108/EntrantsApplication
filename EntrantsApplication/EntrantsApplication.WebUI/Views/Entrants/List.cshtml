@@ -1,10 +1,10 @@
 ﻿@using EntrantsApplication.WebUI.Models.ListView_Models
-@model ListViewEntrants
+@model IEnumerable<ListViewEntrant>
 
 @{
      ViewBag.Title = "List";
 }
-
+<html>
 <head>
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
     <link href="~/Content/bootstrap-theme.css" rel="stylesheet" />
@@ -13,32 +13,61 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
     <link href="~/Content/Styles.css" rel="stylesheet" />
     <script src="~/Scripts/FilterTree.js"></script>
+
 </head>
-<body onload="showTree()">
+<body onload="showTree(), checkedNode()">
     <script src="~/Scripts/FilterTreeView.js"></script>
     <div class="content">
         <h3 style="margin-left:20px; text-align:left; font-weight:400">
             <a>@Html.ActionLink("Return to Main Menu", "MainMenu")</a>
         </h3>
         <div style="margin-top: -65px; display: flex; justify-content: center;">
-            <h1 style="text-align: center">List of the Entrants</h1>
+            <h1 style="text-align: center" onclick="ads()">List of the Entrants</h1>
         </div>
         
         <p id="filterAction" style="text-align:center; font-size:20px; font-weight:500" onclick="ShowOrHideTreeView()">Show List Filter</p>
 
         <script>
-             
+            function checkedNode() {
+                var array = new Array();
+                $("#jstree").on("check_node.jstree", function (e, data) {
+                    array.push(data.node.text);
+                    console.log(array);
+                })
+                $("#jstree").on("uncheck_node.jstree", function (e, data) {
+                    var index = array.indexOf(data.node.text);
+                    console.log(index);
+                    if (index > -1) {
+                        array.splice(index, 1);
+                        console.log(array);
+                    }
+                })
+                $("#submitBtn").click(function () {
+                    $.ajax({
+                        type: "POST",
+                        url: "/Entrants/List",
+                        data: JSON.stringify(array),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: successTree,
+                        error: function () {
+                            alert("Error!");
+                        }
+                    });
+                } )
+            }
         </script>
         <div>
             <div id="filterTreeView" style="float:left; width:30%; padding-right:10px; display:none">
                 <p style="margin-left:20px; font-size:20px; font-weight:700">Filter</p>
                 <div style="margin-left:20px" id="jstree"></div>
                 <div style="margin-bottom:20px;">
-                    <input type="button" style="margin-left:40%; margin-top:10px" value="Submit"/>
+                    @*@using (Html.BeginForm("List", "Entrants"))*@
+                        <input type = "submit" id = "submitBtn" style = "margin-left:40%; margin-top:10px" value = "Submit" />                     
                 </div>
             </div>
-            <div id="entrantsList" style="float:right; width:100%">                
-                @foreach (var item in Model.getListViewEntrants())
+            <div id="entrantsList" style="float:right; width:100%">
+                @foreach (var item in Model)
                 {
                     <div style="background-color : lightblue; font-size:20px; font-weight:700; text-align:center; margin-bottom:30px">
                         <div style="font-size:30px">
@@ -57,7 +86,7 @@ new { entrantId = item.EntrantId }))
                     </div>
 
                     if (item.SelectedEntrant)
-                    {
+                                    {
                         <h3>
                             Personal Information
                         </h3>
@@ -81,7 +110,7 @@ new { entrantId = item.EntrantId }))
                             <p>
                                 Need in dormitory:
                                 @if (item.NeedsDormitory)
-                                 {
+                    {
                                     @:In Need
                                  }
                                  else
@@ -116,5 +145,5 @@ new { entrantId = item.EntrantId }))
     </div>
 
 </body>
-
+</html>
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using EntrantsApplication.Domain.Abstract;
 using EntrantsApplication.Domain.Entities;
 
 namespace EntrantsApplication.WebUI.Models.ListView_Models
@@ -36,6 +37,40 @@ namespace EntrantsApplication.WebUI.Models.ListView_Models
             {
                 yield return entrant;
             }
+        }
+
+        public IEnumerable<ListViewEntrant> getFilteredEntrants(string[] nodesNames, IEntrantsRepository entrantsRepository)
+        {
+            var listViewEntrants = new List<ListViewEntrant>();
+            if (nodesNames != null)
+                foreach (var nodeName in nodesNames)
+                {
+                    IEnumerable<Entrant> entrants;
+                    if (nodeName == "Free" || nodeName == "Paid")
+                    {
+                        entrants = entrantsRepository.getEntrantsFromDatabaseByEducationFee(nodeName);
+                    }
+                    else if (nodeName.Contains("Faculty"))
+                    {
+                        entrants = entrantsRepository.getEntrantsFromDatabaseByFaculty(nodeName);
+                    }
+                    else
+                    {
+                        entrants = entrantsRepository.getEntrantsFromDatabaseBySpeciality(nodeName);                        
+                    }
+                    if (entrants != null)
+                        foreach (var entrant in entrants)
+                        {
+                            //listViewEntrants.Add(entrant);
+                            listViewEntrants.Add(new ListViewEntrant(entrant));
+                        }
+                }
+            return listViewEntrants;
+        }
+
+        public void FindEntrantsInDatabase(string nodeName)
+        {
+
         }
     }
 }

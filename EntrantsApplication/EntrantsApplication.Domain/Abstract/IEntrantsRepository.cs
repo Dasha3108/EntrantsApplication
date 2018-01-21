@@ -12,6 +12,10 @@ namespace EntrantsApplication.Domain.Abstract
         IEnumerable<Entrant> Entrants { get; }
         IEnumerable<Speciality> Specialities { get; }
 
+        IEnumerable<Entrant> getEntrantsFromDatabaseBySpeciality(string specialityName);
+        IEnumerable<Entrant> getEntrantsFromDatabaseByEducationFee(string educationFee);
+        IEnumerable<Entrant> getEntrantsFromDatabaseByFaculty(string facultyName);
+
         void EditEntrant(Entrant entrant);
 
         void SaveEntrant(Entrant entrant);
