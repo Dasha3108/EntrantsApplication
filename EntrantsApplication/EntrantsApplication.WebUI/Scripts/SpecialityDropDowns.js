@@ -66,7 +66,9 @@
                 });
         });
     });
+}
 
+function AddEducationFee() {
     $(document).ready(function () {
         $.getJSON(
             '/jsonData/Faculties.json',

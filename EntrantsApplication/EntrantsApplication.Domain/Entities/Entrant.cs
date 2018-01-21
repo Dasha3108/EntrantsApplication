@@ -25,7 +25,9 @@ namespace EntrantsApplication.Domain.Entities
         public string Surname { get; set; }
         [DisplayFormat(DataFormatString = "{0:d.MM.yyyy}", ApplyFormatInEditMode = true)]
         public DateTime DateOfTheBirth { get; set; }
-        public string Speciality { get; set; }
+        public string EducationFee { get; set; }
+        public int SpecialityId { get; set; }
+        public string SpecialityName { get; set; }
         public string HomeAddress { get; set; }
         public string MobilePhone { get; set; }
         public bool HasPrivileges { get; set; }

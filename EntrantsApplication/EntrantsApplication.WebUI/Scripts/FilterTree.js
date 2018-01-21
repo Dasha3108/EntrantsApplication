@@ -20,22 +20,6 @@
     });
 }
 
-//<div style="background-color : lightblue; font-size:20px; font-weight:700; text-align:center; margin-bottom:30px">
-//    <div style="font-size:30px">
-//        @Html.DisplayFor(modelItem => item.EntrantName)
-//                        </div>
-//    <p>@Html.DisplayFor(modelItem => item.DateOfTheBirth)</p>
-//    @using (Html.BeginForm("FullEntrantInformation", "Entrants",
-//new {entrantId = item.EntrantId}))
-//                        {
-//        <div>
-//            @Html.HiddenFor(modelItem => item.EntrantId)
-//                                <input type="submit" value="Watch" />
-//            <p>@Html.ActionLink("Show Info Bellow", "List", new {entrantId = item.EntrantId})</p>
-//        </div>
-//    }
-//</div>
-
 function successTree(data) {
     console.log(data);
     var entrantsList = document.getElementById("entrantsList");
@@ -43,9 +27,14 @@ function successTree(data) {
     for (var entrantNumber in data) {
         console.log(data[entrantNumber]);
         var newHtml =
-            '<div style="background-color : lightblue; font-size:20px; font-weight:700; text-align:center; margin-bottom:30px"><div style="font-size:30px">' + data[entrantNumber].EntrantName + '</div><p>' + data[entrantNumber].Speciality + '</p>'//@using (Html.BeginForm("FullEntrantInformation", "Entrants", new {entrantId ='+ data[entrantNumber].EntrantId+'})){ <div><input type="submit" value="Watch" />'//<p>@Html.ActionLink("Show Info Bellow", "List", new {entrantId = item.EntrantId})</p></div> }</div > '
+            '<div style="background-color : lightblue; font-size:20px; font-weight:700;\
+            text-align:center; margin-bottom:30px; padding-bottom:2px; padding-top:2px"><div style="font-size:30px">'
+            + data[entrantNumber].EntrantName + '</div><p>' + data[entrantNumber].EducationFee + '</p><p>'
+            + data[entrantNumber].Speciality + '</p><form action="/Entrants/FullEntrantInformation?entrantId=' +
+            data[entrantNumber].EntrantId + '" method="post"><div><input data-val="true"\
+            data-val-number="Значением поля EntrantId должно быть число." data-val-required="Требуется поле EntrantId."\
+            id="item_EntrantId" name="item.EntrantId" type="hidden" value="' + data[entrantNumber].EntrantId + '">\
+            <input type="submit" value="Watch"><p></p></div></form>';
         entrantsList.innerHTML += newHtml;
-
-        //$("#entrantsList").html(data.Entrants[0].Name);
     }
 }

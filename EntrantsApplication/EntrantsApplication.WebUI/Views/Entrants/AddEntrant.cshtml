@@ -12,7 +12,7 @@
     <script type="text/javascript" src="~/Scripts/SpecialityDropDowns.js"></script>
 </head>
 
-<body onload="AddSpecialities()">
+<body onload="AddEducationFee(), AddSpecialities()">
     <style>
         h2 {
             margin-top: 70px;
@@ -60,12 +60,14 @@
                 <p>
                     Chosen Speciality:
                     <div id="specialityComboboxesDropDowns" style="display:flex; justify-content:space-between">
-                        <select id="EducationFeeDropDown" style="width:33%"></select>
+                        @Html.DropDownListFor(x => x.EducationFee, Enumerable.Empty<SelectListItem>(), "Choose an option",
+new { @id = "EducationFeeDropDown", @style = "width:33%" })
+                        @*<select id="EducationFeeDropDown" style="width:33%"></select>*@
                         <select id="FacultyDropDown" style="width:33%">
                             <option>Choose an option</option>
                         </select>
-                        @Html.DropDownListFor(x => x.Speciality, Enumerable.Empty<SelectListItem>(), "Choose an option",
-                         new { @id = "SpecialityDropDown", @style = "width:33%" })
+                        @Html.DropDownListFor(x => x.SpecialityName, Enumerable.Empty<SelectListItem>(), "Choose an option",
+          new { @id = "SpecialityDropDown", @style = "width:33%" })
                     </div>
                 </p>
                 <div style="float:left; width:50%; padding-right:10px">

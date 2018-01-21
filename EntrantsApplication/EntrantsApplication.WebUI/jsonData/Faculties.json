@@ -6,9 +6,11 @@
         "text": "Faculty of Computer Systems and Networks",
         "children": [
           {
+            "id": "s_7",
             "text": "Informatics"
           },
           {
+            "id": "s_8",
             "text": "Information Technology Software"
           }
         ]
@@ -17,10 +19,65 @@
         "text": "Faculty of Information Technologies and Control",
         "children": [
           {
+            "id": "s_1",
             "text": "Automated Data Processing Systems"
           },
           {
+            "id": "s_2",
             "text": "Artificial Intelligence"
+          }
+        ]
+      },
+      {
+        "text": "Faculty of Computer-Aided Design",
+        "children": [
+          {
+            "id": "s_3",
+            "text": "Computer Engineering"
+          },
+          {
+            "id": "s_4",
+            "text": "Design and Manifacture of Software-Controlled Electronic Devices"
+          }
+        ]
+      },
+      {
+        "text": "Faculty of Radioengineering and Electronics",
+        "children": [
+          {
+            "id": "s_5",
+            "text": "Electronic Instrumentation and Control Systems of Physical Installations"
+          }
+        ]
+      },
+      {
+        "text": "Faculty of Infocommunications",
+        "children": [
+          {
+            "id": "s_6",
+            "text": "ADS"
+          }
+        ]
+      },
+      {
+        "text": "Military Faculty",
+        "children": [
+          {
+            "id": "s_9",
+            "text": "Military Systems"
+          }
+        ]
+      },
+      {
+        "text": "Faculty of Engineering and Economics",
+        "children": [
+          {
+            "id": "s_10",
+            "text": "Digital Marketing"
+          },
+          {
+            "id": "s_11",
+            "text": "Economics in Electronic Business"
           }
         ]
       }
@@ -33,9 +90,11 @@
         "text": "Faculty of Computer Systems and Networks",
         "children": [
           {
+            "id": "s_16",
             "text": "Informatics"
           },
           {
+            "id": "s_17",
             "text": "Information Technology Software"
           }
         ]
@@ -44,12 +103,15 @@
         "text": "Faculty of Information Technologies and Control",
         "children": [
           {
+            "id": "s_13",
             "text": "Automated Data Processing Systems"
           },
           {
+            "id": "s_14",
             "text": "Artificial Intelligence"
           },
           {
+            "id": "s_12",
             "text": "Gaming Industry"
           }
         ]
@@ -57,3 +119,4 @@
     ]
   }
 ]
+

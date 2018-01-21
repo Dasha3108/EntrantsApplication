@@ -16,7 +16,7 @@ namespace EntrantsApplication.Domain.Concrete
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Entrant>().ToTable("Entrants");
+            modelBuilder.Entity<Entrant>().ToTable("Entrant");
             modelBuilder.Entity<Speciality>().ToTable("Specialities");
             modelBuilder.Entity<Faculty>().ToTable("Faculties");
 
