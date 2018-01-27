@@ -104,10 +104,10 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="jsonData\Faculties.json" />
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\FilterTree.js" />
-    <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <None Include="Scripts\jquery-3.2.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.2.1.js" />
+    <Content Include="Scripts\jquery-3.2.1.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\SpecialityDropDowns.js" />
     <Content Include="Web.config">
@@ -132,7 +132,6 @@
     <None Include="packages.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Entrants\MainMenu.cshtml" />
     <Content Include="Views\Entrants\List.cshtml" />
     <Content Include="Views\Entrants\FullEntrantInformation.cshtml" />
@@ -141,6 +140,7 @@
     <Content Include="Views\Entrants\AddingEntrantInformation.cshtml" />
     <Content Include="Views\Entrants\EditEntrant.cshtml" />
     <Content Include="Views\Entrants\EdittingEntrantInformation.cshtml" />
+    <Content Include="Scripts\jquery-3.2.1.min.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
