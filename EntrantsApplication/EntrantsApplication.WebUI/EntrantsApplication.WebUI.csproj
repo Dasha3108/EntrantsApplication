@@ -101,6 +101,7 @@
     <Content Include="Content\Styles.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\AddSpecialitiesInfo.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="jsonData\Faculties.json" />
@@ -141,6 +142,7 @@
     <Content Include="Views\Entrants\EditEntrant.cshtml" />
     <Content Include="Views\Entrants\EdittingEntrantInformation.cshtml" />
     <Content Include="Scripts\jquery-3.2.1.min.map" />
+    <Content Include="Views\Entrants\AddApplication.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

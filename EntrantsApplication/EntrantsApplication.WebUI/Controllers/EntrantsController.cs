@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Services;
+using System.Web.Services;
 using EntrantsApplication.Domain.Abstract;
 using EntrantsApplication.Domain.Concrete;
 using EntrantsApplication.Domain.Entities;
@@ -45,6 +47,57 @@ namespace EntrantsApplication.WebUI.Controllers
                 return View();
         }
 
+        [HttpGet]
+        public ViewResult AddApplication()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ViewResult AddApplication(EntrantApplication application)
+        {
+            _entrantsRepository.SaveApplication(application);
+            return View("MainMenu");
+        }
+         
+        public JsonResult GetUniversitiesInfo(EntrantSpeciality[] model)
+        {           
+            if (model != null)
+            {
+                return Json(_entrantsRepository.getUniversitiesFromDatabase(model), JsonRequestBehavior.AllowGet);
+            }
+            return Json(_entrantsRepository.getUniversitiesFromDatabase(), JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetEducationFormsInfo(string[] model)
+        {
+            if (model.Length == 1)
+                EFEntrantsRepository._currentEntrantsSpeciality = null;
+            return Json(_entrantsRepository.getEducationFormsFromDatabase(model[0]), JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetEducationPeriodsInfo(string[] model)
+        {
+            return Json(_entrantsRepository.getEducationPeriodsFromDatabase(model[0]), JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetEducationFeesInfo(string[] model)
+        {
+            return Json(_entrantsRepository.getEducationFeesFromDatabase(model[0]), JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetSpecialitiesInfo(string[] model)
+        {
+            return Json(_entrantsRepository.getSpecialitiesFromDatabase(model[0]), JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetGroupSpecialitiesInfo(string[] model)
+        {
+            if (model.Length == 1)
+                EFEntrantsRepository._currentEntrantsSpeciality = null;
+            return Json(_entrantsRepository.getGroupSpecialities(model[0]), JsonRequestBehavior.AllowGet);
+        }
+        
         [HttpGet]
         public ViewResult List(int? entrantId, Entrant deletedEntrant)
         {

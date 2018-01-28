@@ -30,6 +30,7 @@
         <script>
             function checkedNode() {              
                 $("#submitBtn").click(function () {
+                    console.log($("#jstree").jstree("get_checked", null, true));
                     $.ajax({
                         type: "POST",
                         async: true,

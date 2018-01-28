@@ -50,9 +50,17 @@
     <Compile Include="Abstract\IEntrantsRepository.cs" />
     <Compile Include="Concrete\EFDbContext.cs" />
     <Compile Include="Concrete\EFEntrantsRepository.cs" />
+    <Compile Include="Concrete\SpecialityDbContext.cs" />
+    <Compile Include="Entities\EducationFee.cs" />
+    <Compile Include="Entities\EducationForm.cs" />
+    <Compile Include="Entities\EducationPeriod.cs" />
     <Compile Include="Entities\Entrant.cs" />
+    <Compile Include="Entities\EntrantApplication.cs" />
+    <Compile Include="Entities\EntrantSpeciality.cs" />
     <Compile Include="Entities\Faculty.cs" />
     <Compile Include="Entities\Speciality.cs" />
+    <Compile Include="Entities\SpecialityName.cs" />
+    <Compile Include="Entities\University.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
