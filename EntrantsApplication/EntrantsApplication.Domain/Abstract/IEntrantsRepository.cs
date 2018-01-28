@@ -13,12 +13,21 @@ namespace EntrantsApplication.Domain.Abstract
         IEnumerable<Speciality> Specialities { get; }
 
         IEnumerable<Entrant> getEntrantsFromDatabaseBySpeciality(string specialityName);
-       // IEnumerable<Entrant> getEntrantsFromDatabaseByEducationFee(string educationFee);
-       // IEnumerable<Entrant> getEntrantsFromDatabaseByFaculty(string facultyName);
+        // IEnumerable<Entrant> getEntrantsFromDatabaseByEducationFee(string educationFee);
+        // IEnumerable<Entrant> getEntrantsFromDatabaseByFaculty(string facultyName);
+        string[] getUniversitiesFromDatabase();
+        string[] getEducationFormsFromDatabase(string universityName);
+        string[] getEducationPeriodsFromDatabase(string educationFormName);
+        string[] getEducationFeesFromDatabase(string educationPeriodName);
+        string[] getSpecialitiesFromDatabase(string educationFeeName);
+        IEnumerable<EntrantSpeciality> getGroupSpecialities(string specialityName);
+        string[] getUniversitiesFromDatabase(EntrantSpeciality[] specialities);
 
         void EditEntrant(Entrant entrant);
 
         void SaveEntrant(Entrant entrant);
+
+        void SaveApplication(EntrantApplication application);
 
         void RemoveEntrant(Entrant entrant);
     }

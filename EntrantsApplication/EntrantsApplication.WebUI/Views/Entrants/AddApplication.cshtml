@@ -1,0 +1,58 @@
+﻿@model EntrantsApplication.Domain.Entities.EntrantApplication
+
+@{
+    ViewBag.Title = "New Application";
+}
+
+<head>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/Styles.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.2.1.js"></script>
+    <script src="~/Scripts/AddSpecialitiesInfo.js"></script>
+
+    <style>
+        .speciality-div {
+            background-color: lightblue;
+            font-size: 20px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 30px;
+            padding-left: 40px;
+            padding-right: 40px;
+        }
+    </style>
+</head>
+
+<body onload="AddInfo(0)">
+    <h2 style="text-align:center">Add Application</h2>
+   
+    <div style="margin-left:32px; margin-right:32px; text-align:justify">
+        @using (Html.BeginForm())
+        {
+            <div id="HiddenElements">
+                @Html.HiddenFor(x => Model.Speciality1Id, new { @id = "SpecialityId0" })
+            </div>
+            @Html.ValidationSummary()
+            <div id="SpecialitiesContainer">
+                <div id="FirstSpecialityInfo" class="speciality-div">
+                    <div>
+                        <select style="margin-top: 10px; width: 100%" id="UniversitiesDropDown0"></select>
+                    </div>
+                    <div style="display:flex; justify-content:space-between">
+                        <select style="width:33%" id="EducationFormsDropDown0"></select>
+                        <select style="width:33%" id="EducationPeriodsDropDown0"></select>
+                        <select style="width:33%" id="EducationFeesDropDown0"></select>
+                    </div>
+                    <div>
+                        <select style="margin-bottom: 10px; width: 100%" id="SpecialitiesDropDown0"></select>
+                    </div>
+                </div>
+               
+            </div>
+
+            <div style="text-align:center">
+                <input class="btn-success" type="submit" value="Submit" />
+            </div>
+         }
+    </div>
+</body>
