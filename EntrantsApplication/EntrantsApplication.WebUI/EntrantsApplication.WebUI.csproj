@@ -121,6 +121,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ApplicationModels\ListApplication.cs" />
     <Compile Include="Models\ListView Models\ListViewEntrant.cs" />
     <Compile Include="Models\ListView Models\ListViewEntrants.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -143,6 +144,7 @@
     <Content Include="Views\Entrants\EdittingEntrantInformation.cshtml" />
     <Content Include="Scripts\jquery-3.2.1.min.map" />
     <Content Include="Views\Entrants\AddApplication.cshtml" />
+    <Content Include="Views\Entrants\WatchApplications.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
