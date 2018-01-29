@@ -8,6 +8,7 @@ using System.Web.Services;
 using EntrantsApplication.Domain.Abstract;
 using EntrantsApplication.Domain.Concrete;
 using EntrantsApplication.Domain.Entities;
+using EntrantsApplication.WebUI.Models.ApplicationModels;
 using EntrantsApplication.WebUI.Models.ListView_Models;
 
 namespace EntrantsApplication.WebUI.Controllers
@@ -96,6 +97,17 @@ namespace EntrantsApplication.WebUI.Controllers
             if (model.Length == 1)
                 EFEntrantsRepository._currentEntrantsSpeciality = null;
             return Json(_entrantsRepository.getGroupSpecialities(model[0]), JsonRequestBehavior.AllowGet);
+        }
+
+        public ViewResult WatchApplications()
+        {
+            var listApplications = new List<ListApplication>();
+            var specialitiesDb = (new SpecialityDbContext()).Applications.ToArray();
+            foreach (var application in specialitiesDb)
+            {
+                listApplications.Add(new ListApplication(application));
+            }
+            return View(listApplications);
         }
         
         [HttpGet]
