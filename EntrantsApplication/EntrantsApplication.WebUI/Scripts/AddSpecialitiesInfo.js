@@ -2,6 +2,7 @@
 var currentNumberOfGroupSpecialties;
 var currentGroupSpecialities = new Array();
 var changingSpecialityNumber;
+var universityName;
 
 function AddInfo(number) {
     $(function () {
@@ -29,9 +30,17 @@ function getEducationForms(number) {
             RemoveElementsFromDropDown("EducationFeesDropDown" + number);
             RemoveElementsFromDropDown("SpecialitiesDropDown" + number);
             var specialityInfo;
-            if (number != 0)
-                specialityInfo = [getElementValue("UniversitiesDropDown", number), number];
-            else {
+            var element = document.getElementById("SpecialityId" + number);            
+            console.log(element);
+            var firstSpeciality = document.getElementById("SpecialityId0");
+            console.log(firstSpeciality);
+            if (firstSpeciality != null) {               
+                specialityInfo = [getElementValue("UniversitiesDropDown", 0), number];
+            }
+            else if (element != null)
+                if (element.name != "Speciality1Id")
+                    specialityInfo = [getElementValue("UniversitiesDropDown", 0), number];
+            if (specialityInfo == null) {
                 specialityInfo = [getElementValue("UniversitiesDropDown", number)];
                 currentGroupSpecialities = new Array();
                 currentNumber = 0;
@@ -47,8 +56,12 @@ function getEducationForms(number) {
                     contentType: "application/json; charset=utf-8",
                     url: "/Entrants/GetEducationFormsInfo",
                     success: function (data) {
-                        if (number == 0) 
-                            removeAllDivs();
+                        if (firstSpeciality == null) {
+                            removeAllDivs(number);
+                        }
+                        else if (element != null)
+                            if (element.name == "Speciality1Id")
+                                removeAllDivs(number);
                         if (data.length != 0)
                             onFormSuccess(data, number)
                     },
@@ -156,22 +169,37 @@ function getSpecialities(number) {
 
 function getOtherSpecialities(number) {
     $(document).ready(function () {
-            $("#SpecialitiesDropDown" + number).change(function () {
+        $("#SpecialitiesDropDown" + number).change(function () {
+            //debugger;
                 var currentElement = document.getElementById("SpecialitiesDropDown" + number);
                 var specialityInfo;
                 changingSpecialityNumber = number;
-                if (number == 0) {
-                    removeAllDivs();
+                var element = document.getElementById("SpecialityId" + number);
+                var firstSpeciality = document.getElementById("SpecialityId0");
+                console.log(number);
+                if (firstSpeciality == null){
                     currentNumber = 0;
-                    specialityInfo = [getElementValue("UniversitiesDropDown", number),
-                        getElementValue("EducationFormsDropDown", number), getElementValue("EducationPeriodsDropDown", number),
-                        getElementValue("EducationFeesDropDown", number), getElementValue("SpecialitiesDropDown", number)];
+                    console.log(document.getElementById("UniversitiesDropDown0"));
+                    specialityInfo = [getElementValue("UniversitiesDropDown", 0),
+                        getElementValue("EducationFormsDropDown", 0), getElementValue("EducationPeriodsDropDown", 0),
+                        getElementValue("EducationFeesDropDown", 0), getElementValue("SpecialitiesDropDown", 0)];
+                    removeAllDivs(number);
                 }
-                else {
+                else if (element != null)
+                    if (element.name == "Speciality1Id") {
+                        currentNumber = 0;
+                        console.log(number);
+                        specialityInfo = [getElementValue("UniversitiesDropDown", 0),
+                            getElementValue("EducationFormsDropDown", 0), getElementValue("EducationPeriodsDropDown", 0),
+                            getElementValue("EducationFeesDropDown", 0), getElementValue("SpecialitiesDropDown", 0)];
+                        removeAllDivs(number);
+                    }
+                if (specialityInfo == null) {
                     specialityInfo = [getElementValue("UniversitiesDropDown", number),
                     getElementValue("EducationFormsDropDown", number), getElementValue("EducationPeriodsDropDown", number),
                     getElementValue("EducationFeesDropDown", number), getElementValue("SpecialitiesDropDown", number), number];
                 }
+                console.log("CurN " + number);
                 console.log(specialityInfo);
                 $(function () {
                     $.ajax({
@@ -181,7 +209,7 @@ function getOtherSpecialities(number) {
                         contentType: "application/json; charset=utf-8",
                         url: "/Entrants/GetGroupSpecialitiesInfo",
                         success: function (data) {
-                            if (number == 0) {
+                            if (element == null || element.name == "Speciality1Id") {
                                 currentNumberOfGroupSpecialties = data.length - 1;
                             }
                             currentGroupSpecialities = data;                           
@@ -202,15 +230,47 @@ function getOtherSpecialities(number) {
 }
 
 function onSuccess(data, number) {
-    addElementsToDropDown("UniversitiesDropDown"+number, data);
+    addElementsToDropDown("UniversitiesDropDown" + number, data);
+    if (number == 0 && universityName != undefined) {
+        var index = jQuery('#UniversitiesDropDown0 option:contains("' + universityName + '")')[0].index;
+        document.getElementById("UniversitiesDropDown0").selectedIndex = index;
+    }
 }
 
 function onFormSuccess(data, number) {
     addElementsToDropDown("EducationFormsDropDown"+number, data);
 }
 
-function removeAllDivs() {
-    var firstElement = document.getElementById("FirstSpecialityInfo");
+function removeAllDivs(number) {
+    var firstElement = document.getElementById(number);
+    firstElement.id = "0";
+   // debugger;
+    if (number != 0) {
+        var selects = firstElement.getElementsByTagName("select");
+        console.log(selects);
+        for (var counter = 0; counter < selects.length; counter++) {
+            console.log(selects[counter]);
+            selects[counter].id = selects[counter].id.replace(/[0-9]/g, '') + 0;
+        }
+        universityName = getElementValue("UniversitiesDropDown", 0);
+        RemoveElementsFromDropDown("UniversitiesDropDown0");
+        $(function () {
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                contentType: "application/json",
+                url: "/Entrants/GetUniversitiesInfo",
+                data: JSON.stringify([]),
+                success: function (data) { onSuccess(data, 0) },
+                error: function (d) {
+                    console.log(d.responseText);
+                    alert("Error calling the page method.");
+                }
+            });
+        });
+    }    
+    console.log(document.getElementById("UniversitiesDropDown0"));
+    console.log(firstElement);
     var currentElement = document.getElementById("SpecialitiesContainer");
     currentElement.innerHTML = "";
     currentElement.appendChild(firstElement);
@@ -243,9 +303,8 @@ function onOtherSpecialitiesSuccess() {
         console.log("total " + currentNumberOfGroupSpecialties);
         if (currentNumber >= 0) {
             var element = document.getElementById("HiddenElements");
-            element.innerHTML += '<input data-val="true" data-val-number="Значением поля Speciality' + (currentNumber + 1) + 'Id\
-         должно быть число." data-val-required="Требуется поле Speciality'+ (currentNumber + 1) + 'Id." id="SpecialityId' + currentNumber +
-                '" name="Speciality' + (currentNumber + 1) + 'Id" type="hidden" value="">';
+            element.innerHTML += '<input data-val="true"id="SpecialityId' + currentNumber +
+                '" name="Speciality' + (currentNumber + 1) + 'Id" type="hidden">';
         }
         console.log("SpecialityId" + currentNumber);
         specialityIdElement = document.getElementById("SpecialityId" + currentNumber);
@@ -261,7 +320,7 @@ function onOtherSpecialitiesSuccess() {
     }
     console.log(currentGroupSpecialities[currentGroupSpecialities.length - 1].SpecialityId);
     specialityIdElement.value = currentGroupSpecialities[currentGroupSpecialities.length - 1].SpecialityId;
-    currentGroupSpecialities.splice(-1, 1);
+   // currentGroupSpecialities.splice(-1, 1);
 }
 
 function addElementsToDropDown(dropDownName, data) {
@@ -307,7 +366,9 @@ function AddNewSpeciality(number) {
     thirdDiv.appendChild(specialitySelect);
 
     var mainDiv = document.createElement("div");
-    mainDiv.className = "speciality-div";
+    mainDiv.className = "speciality-div sortable";
+    mainDiv.id = number;
+    console.log(mainDiv.id);
     mainDiv.appendChild(firstDiv);
     mainDiv.appendChild(secondDiv);
     mainDiv.appendChild(thirdDiv);
@@ -323,7 +384,22 @@ function RemoveElementsFromDropDown(dropDownName) {
     }
 }
 
-function getElementValue(elementName, number) {
+function getElementValue(elementName, number) {   
     var element = document.getElementById(elementName + number);
+    console.log(element.selectedIndex);
+    console.log(element.options[element.selectedIndex])
     return element.options[element.selectedIndex].text;
+}
+
+function getRightPriority(array) {
+    for (var number in array) {
+        var specialityInfo = array[number].split(' = ');
+        ChangeSpecialityPriority(specialityInfo)
+    }   
+}
+
+function ChangeSpecialityPriority(specialityId) {
+    var element = document.getElementById("SpecialityId" + specialityId[0]);
+    if (element != null)
+        element.name = "Speciality" + (+specialityId[1] + 1) + "Id";
 }

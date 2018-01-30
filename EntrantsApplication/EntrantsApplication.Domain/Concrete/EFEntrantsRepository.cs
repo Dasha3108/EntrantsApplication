@@ -25,10 +25,6 @@ namespace EntrantsApplication.Domain.Concrete
             return _entrantsContext.Entrants.Where(entrant => entrant.SpecialityId == specialityIdNumber).ToList();
         }
 
-        //public string[] getSpecialitiesInfoFromDatabase()
-        //{
-
-        //}
         public string[] getUniversitiesFromDatabase()
         {
             var universitiesIds = _specialityContext.Specialities.Select(speciality => speciality.UniversityId).Distinct();
@@ -176,8 +172,11 @@ namespace EntrantsApplication.Domain.Concrete
 
         public void SaveApplication(EntrantApplication application)
         {
-            _specialityContext.Applications.Add(application);
-            _specialityContext.SaveChanges();
+            if (IsValid(application))
+            {
+                _specialityContext.Applications.Add(application);
+                _specialityContext.SaveChanges();
+            }
         }
 
         public void RemoveEntrant(Entrant entrant)
@@ -218,6 +217,25 @@ namespace EntrantsApplication.Domain.Concrete
         {
             return _specialityContext.EducationFees.Where(fee => fee.Name == educationFeeName).
                 Select(fee => fee.EducationFeeId).FirstOrDefault();
+        }
+
+        private bool IsValid(EntrantApplication application)
+        {
+            try
+            {
+                var properties = typeof(EntrantApplication).GetProperties();
+                var length = properties.Length - 1;
+                var specialitiesValues = new int[length];
+                for (int counter = 0; counter < length; counter++)
+                {
+                    specialitiesValues[counter] = (int)properties[counter + 1].GetValue(application);
+                }
+                return (specialitiesValues.Length == specialitiesValues.Distinct().Count());
+            }
+            catch 
+            {
+                return false;
+            }
         }
     }
 }

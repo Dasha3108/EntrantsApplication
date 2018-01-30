@@ -9,6 +9,7 @@
     <link href="~/Content/Styles.css" rel="stylesheet" />
     <script src="~/Scripts/jquery-3.2.1.js"></script>
     <script src="~/Scripts/AddSpecialitiesInfo.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
 
     <style>
         .speciality-div {
@@ -21,6 +22,23 @@
             padding-right: 40px;
         }
     </style>
+    <script>
+        $(function () {
+            $('#SpecialitiesContainer').sortable({
+                items: '.sortable',
+                stop: function (event, ui) {
+                    var array = new Array();
+                    array = ($.map($(this).find('div'), function (el) {
+                        if (el.id != "")
+                            return el.id + ' = ' + $(el).index();
+                    }))
+                    console.log(array);
+                    getRightPriority(array);
+                }
+            });
+
+        });
+    </script>
 </head>
 
 <body onload="AddInfo(0)">
@@ -34,7 +52,7 @@
             </div>
             @Html.ValidationSummary()
             <div id="SpecialitiesContainer">
-                <div id="FirstSpecialityInfo" class="speciality-div">
+                <div id="0" class="speciality-div sortable">
                     <div>
                         <select style="margin-top: 10px; width: 100%" id="UniversitiesDropDown0"></select>
                     </div>

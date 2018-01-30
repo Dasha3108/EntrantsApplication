@@ -77,7 +77,7 @@ namespace EntrantsApplication.WebUI.Controllers
 
         public JsonResult GetEducationFormsInfo(string[] model)
         {
-            if (model.Length >= 1)
+            if (model.Length >= 1 && !model.Contains("Choose an option"))
             {
                 if (model.Length == 1)
                     EFEntrantsRepository._currentEntrantsSpeciality = null;
@@ -89,7 +89,7 @@ namespace EntrantsApplication.WebUI.Controllers
 
         public JsonResult GetEducationPeriodsInfo(string[] model)
         {
-            if (model.Length >= 2)
+            if (model.Length >= 2 && !model.Contains("Choose an option"))
                 return Json(_entrantsRepository.getEducationPeriodsFromDatabase(model), JsonRequestBehavior.AllowGet);
             else
                 return Json(null);
@@ -97,7 +97,7 @@ namespace EntrantsApplication.WebUI.Controllers
 
         public JsonResult GetEducationFeesInfo(string[] model)
         {
-            if (model.Length >= 3)
+            if (model.Length >= 3 && !model.Contains("Choose an option"))
                 return Json(_entrantsRepository.getEducationFeesFromDatabase(model), JsonRequestBehavior.AllowGet);
             else
                 return Json(null);
@@ -105,7 +105,7 @@ namespace EntrantsApplication.WebUI.Controllers
 
         public JsonResult GetSpecialitiesInfo(string[] model)
         {
-            if (model.Length >= 4)
+            if (model.Length >= 4 && !model.Contains("Choose an option"))
                 return Json(_entrantsRepository.getSpecialitiesFromDatabase(model), JsonRequestBehavior.AllowGet);
             else
                 return Json(null);
@@ -113,7 +113,7 @@ namespace EntrantsApplication.WebUI.Controllers
 
         public JsonResult GetGroupSpecialitiesInfo(string[] model)
         {
-            if (model.Length >= 5)
+            if (model.Length >= 5 && !model.Contains("Choose an option"))
             {
                 if (model.Length == 5)
                     EFEntrantsRepository._currentEntrantsSpeciality = null;
