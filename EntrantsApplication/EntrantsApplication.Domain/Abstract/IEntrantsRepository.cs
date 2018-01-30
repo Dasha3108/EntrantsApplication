@@ -17,10 +17,10 @@ namespace EntrantsApplication.Domain.Abstract
         // IEnumerable<Entrant> getEntrantsFromDatabaseByFaculty(string facultyName);
         string[] getUniversitiesFromDatabase();
         string[] getEducationFormsFromDatabase(string universityName);
-        string[] getEducationPeriodsFromDatabase(string educationFormName);
-        string[] getEducationFeesFromDatabase(string educationPeriodName);
-        string[] getSpecialitiesFromDatabase(string educationFeeName);
-        IEnumerable<EntrantSpeciality> getGroupSpecialities(string specialityName);
+        string[] getEducationPeriodsFromDatabase(string[] specialityInfo);
+        string[] getEducationFeesFromDatabase(string[] specialityInfo);
+        string[] getSpecialitiesFromDatabase(string[] specialityInfo);
+        IEnumerable<EntrantSpeciality> getGroupSpecialities(string[] specialityInfo);
         string[] getUniversitiesFromDatabase(EntrantSpeciality[] specialities);
 
         void EditEntrant(Entrant entrant);

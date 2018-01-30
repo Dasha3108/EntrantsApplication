@@ -57,8 +57,13 @@ namespace EntrantsApplication.WebUI.Controllers
         [HttpPost]
         public ViewResult AddApplication(EntrantApplication application)
         {
-            _entrantsRepository.SaveApplication(application);
-            return View("MainMenu");
+            if (ModelState.IsValid)
+            {
+                _entrantsRepository.SaveApplication(application);
+                return View("MainMenu");
+            }
+            else
+                return View();          
         }
          
         public JsonResult GetUniversitiesInfo(EntrantSpeciality[] model)
@@ -72,31 +77,50 @@ namespace EntrantsApplication.WebUI.Controllers
 
         public JsonResult GetEducationFormsInfo(string[] model)
         {
-            if (model.Length == 1)
-                EFEntrantsRepository._currentEntrantsSpeciality = null;
-            return Json(_entrantsRepository.getEducationFormsFromDatabase(model[0]), JsonRequestBehavior.AllowGet);
+            if (model.Length >= 1)
+            {
+                if (model.Length == 1)
+                    EFEntrantsRepository._currentEntrantsSpeciality = null;
+                return Json(_entrantsRepository.getEducationFormsFromDatabase(model[0]), JsonRequestBehavior.AllowGet);
+            }
+            else
+                return Json(null);
         }
 
         public JsonResult GetEducationPeriodsInfo(string[] model)
         {
-            return Json(_entrantsRepository.getEducationPeriodsFromDatabase(model[0]), JsonRequestBehavior.AllowGet);
+            if (model.Length >= 2)
+                return Json(_entrantsRepository.getEducationPeriodsFromDatabase(model), JsonRequestBehavior.AllowGet);
+            else
+                return Json(null);
         }
 
         public JsonResult GetEducationFeesInfo(string[] model)
         {
-            return Json(_entrantsRepository.getEducationFeesFromDatabase(model[0]), JsonRequestBehavior.AllowGet);
+            if (model.Length >= 3)
+                return Json(_entrantsRepository.getEducationFeesFromDatabase(model), JsonRequestBehavior.AllowGet);
+            else
+                return Json(null);
         }
 
         public JsonResult GetSpecialitiesInfo(string[] model)
         {
-            return Json(_entrantsRepository.getSpecialitiesFromDatabase(model[0]), JsonRequestBehavior.AllowGet);
+            if (model.Length >= 4)
+                return Json(_entrantsRepository.getSpecialitiesFromDatabase(model), JsonRequestBehavior.AllowGet);
+            else
+                return Json(null);
         }
 
         public JsonResult GetGroupSpecialitiesInfo(string[] model)
         {
-            if (model.Length == 1)
-                EFEntrantsRepository._currentEntrantsSpeciality = null;
-            return Json(_entrantsRepository.getGroupSpecialities(model[0]), JsonRequestBehavior.AllowGet);
+            if (model.Length >= 5)
+            {
+                if (model.Length == 5)
+                    EFEntrantsRepository._currentEntrantsSpeciality = null;
+                return Json(_entrantsRepository.getGroupSpecialities(model), JsonRequestBehavior.AllowGet);
+            }
+            else
+                return Json(null);
         }
 
         public ViewResult WatchApplications()

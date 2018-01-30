@@ -1,6 +1,7 @@
 ﻿var currentNumber = 0;
 var currentNumberOfGroupSpecialties;
 var currentGroupSpecialities = new Array();
+var changingSpecialityNumber;
 
 function AddInfo(number) {
     $(function () {
@@ -27,23 +28,22 @@ function getEducationForms(number) {
             RemoveElementsFromDropDown("EducationPeriodsDropDown" + number);
             RemoveElementsFromDropDown("EducationFeesDropDown" + number);
             RemoveElementsFromDropDown("SpecialitiesDropDown" + number);
-            var currentElement = document.getElementById("UniversitiesDropDown" + number);  
-            var a;
+            var specialityInfo;
             if (number != 0)
-                a = [currentElement.options[currentElement.selectedIndex].text, number];
+                specialityInfo = [getElementValue("UniversitiesDropDown", number), number];
             else {
-                a = [currentElement.options[currentElement.selectedIndex].text];
+                specialityInfo = [getElementValue("UniversitiesDropDown", number)];
                 currentGroupSpecialities = new Array();
                 currentNumber = 0;
             }
-            console.log(a);
+            console.log(specialityInfo);
             console.log("curNafterCh");
             console.log(currentNumber);
             $(function () {
                 $.ajax({
                     type: "POST",
                     dataType: "json",
-                    data: JSON.stringify(a),
+                    data: JSON.stringify(specialityInfo),
                     contentType: "application/json; charset=utf-8",
                     url: "/Entrants/GetEducationFormsInfo",
                     success: function (data) {
@@ -69,14 +69,14 @@ function getEducationPeriods(number) {
             RemoveElementsFromDropDown("EducationPeriodsDropDown" + number);
             RemoveElementsFromDropDown("EducationFeesDropDown" + number);
             RemoveElementsFromDropDown("SpecialitiesDropDown" + number);
-            var currentElement = document.getElementById("EducationFormsDropDown" + number);
-            var a = [currentElement.options[currentElement.selectedIndex].text];
-            console.log(a);
+            var specialityInfo = [getElementValue("UniversitiesDropDown", number),
+                getElementValue("EducationFormsDropDown", number)];
+            console.log(specialityInfo);
             $(function () {
                 $.ajax({
                     type: "POST",
                     dataType: "json",
-                    data: JSON.stringify(a),
+                    data: JSON.stringify(specialityInfo),
                     contentType: "application/json; charset=utf-8",
                     url: "/Entrants/GetEducationPeriodsInfo",
                     success: function (data) {
@@ -99,14 +99,14 @@ function getEducationFees(number) {
         $("#EducationPeriodsDropDown" + number).change(function () {
             RemoveElementsFromDropDown("EducationFeesDropDown" + number);
             RemoveElementsFromDropDown("SpecialitiesDropDown" + number);
-            var currentElement = document.getElementById("EducationPeriodsDropDown" + number);
-            var a = [currentElement.options[currentElement.selectedIndex].text];
-            console.log(a);
+            var specialityInfo = [getElementValue("UniversitiesDropDown", number),
+                getElementValue("EducationFormsDropDown", number), getElementValue("EducationPeriodsDropDown", number)];
+            console.log(specialityInfo);
             $(function () {
                 $.ajax({
                     type: "POST",
                     dataType: "json",
-                    data: JSON.stringify(a),
+                    data: JSON.stringify(specialityInfo),
                     contentType: "application/json; charset=utf-8",
                     url: "/Entrants/GetEducationFeesInfo",
                     success: function (data) {
@@ -128,14 +128,15 @@ function getSpecialities(number) {
     $(document).ready(function () {
         $("#EducationFeesDropDown" + number).change(function () {
             RemoveElementsFromDropDown("SpecialitiesDropDown" + number);
-            var currentElement = document.getElementById("EducationFeesDropDown" + number);
-            var a = [currentElement.options[currentElement.selectedIndex].text];
-            console.log(a);
+            var specialityInfo = [getElementValue("UniversitiesDropDown", number),
+                getElementValue("EducationFormsDropDown", number), getElementValue("EducationPeriodsDropDown", number),
+                getElementValue("EducationFeesDropDown", number)];
+            console.log(specialityInfo);
             $(function () {             
                 $.ajax({
                     type: "POST",
                     dataType: "json",
-                    data: JSON.stringify(a),
+                    data: JSON.stringify(specialityInfo),
                     contentType: "application/json; charset=utf-8",
                     url: "/Entrants/GetSpecialitiesInfo",
                     success: function (data) {
@@ -154,24 +155,29 @@ function getSpecialities(number) {
 }
 
 function getOtherSpecialities(number) {
-        $(document).ready(function () {
+    $(document).ready(function () {
             $("#SpecialitiesDropDown" + number).change(function () {
                 var currentElement = document.getElementById("SpecialitiesDropDown" + number);
-                var a;
+                var specialityInfo;
+                changingSpecialityNumber = number;
                 if (number == 0) {
                     removeAllDivs();
                     currentNumber = 0;
-                    a = [currentElement.options[currentElement.selectedIndex].text];
+                    specialityInfo = [getElementValue("UniversitiesDropDown", number),
+                        getElementValue("EducationFormsDropDown", number), getElementValue("EducationPeriodsDropDown", number),
+                        getElementValue("EducationFeesDropDown", number), getElementValue("SpecialitiesDropDown", number)];
                 }
                 else {
-                    a = [currentElement.options[currentElement.selectedIndex].text, number];
+                    specialityInfo = [getElementValue("UniversitiesDropDown", number),
+                    getElementValue("EducationFormsDropDown", number), getElementValue("EducationPeriodsDropDown", number),
+                    getElementValue("EducationFeesDropDown", number), getElementValue("SpecialitiesDropDown", number), number];
                 }
-                console.log(a);
+                console.log(specialityInfo);
                 $(function () {
                     $.ajax({
                         type: "POST",
                         dataType: "json",
-                        data: JSON.stringify(a),
+                        data: JSON.stringify(specialityInfo),
                         contentType: "application/json; charset=utf-8",
                         url: "/Entrants/GetGroupSpecialitiesInfo",
                         success: function (data) {
@@ -181,7 +187,9 @@ function getOtherSpecialities(number) {
                             currentGroupSpecialities = data;                           
                             console.log("CurrentGroupSp: ");
                             console.log(currentGroupSpecialities);
-                            onOtherSpecialitiesSuccess();
+                            var element = document.getElementById("SpecialitiesDropDown" + number);
+                         //   if (elementText == "Choose an option")
+                                onOtherSpecialitiesSuccess();
                         },
                         error: function (d) {
                             console.log(d.responseText);
@@ -227,24 +235,33 @@ function onSpecialitySuccess(data, number) {
 }
 
 function onOtherSpecialitiesSuccess() {
-    console.log("curN " + currentNumber);
-    console.log("total " + currentNumberOfGroupSpecialties);
-    if (currentNumber >= 0) {
-        var element = document.getElementById("HiddenElements");
-        element.innerHTML += '<input data-val="true" data-val-number="Значением поля Speciality' + (currentNumber + 1) + 'Id\
+    var lastChild = document.getElementById("SpecialitiesContainer").lastChild;
+    console.log(lastChild.lastElementChild.lastElementChild.length);
+    var specialityIdElement;
+    if (lastChild.lastElementChild.lastElementChild.length >= 1) {
+        console.log("curN " + currentNumber);
+        console.log("total " + currentNumberOfGroupSpecialties);
+        if (currentNumber >= 0) {
+            var element = document.getElementById("HiddenElements");
+            element.innerHTML += '<input data-val="true" data-val-number="Значением поля Speciality' + (currentNumber + 1) + 'Id\
          должно быть число." data-val-required="Требуется поле Speciality'+ (currentNumber + 1) + 'Id." id="SpecialityId' + currentNumber +
-        '" name="Speciality' + (currentNumber+1)+'Id" type="hidden" value="">';
+                '" name="Speciality' + (currentNumber + 1) + 'Id" type="hidden" value="">';
+        }
+        console.log("SpecialityId" + currentNumber);
+        specialityIdElement = document.getElementById("SpecialityId" + currentNumber);
+        if (currentNumber < currentNumberOfGroupSpecialties && currentNumber < 30) {
+            currentNumber++;
+            AddNewSpeciality(currentNumber);
+            AddInfo(currentNumber);
+        }
     }
-    var element = document.getElementById("SpecialityId" + currentNumber);
-    console.log("SpecialityId" + currentNumber);
+    else {
+        console.log("ChangNum: " + changingSpecialityNumber);
+        specialityIdElement = document.getElementById("SpecialityId" + changingSpecialityNumber);
+    }
     console.log(currentGroupSpecialities[currentGroupSpecialities.length - 1].SpecialityId);
-    element.value = currentGroupSpecialities[currentGroupSpecialities.length - 1].SpecialityId;
+    specialityIdElement.value = currentGroupSpecialities[currentGroupSpecialities.length - 1].SpecialityId;
     currentGroupSpecialities.splice(-1, 1);
-    if (currentNumber < currentNumberOfGroupSpecialties && currentNumber < 30) {
-        currentNumber++;
-        AddNewSpeciality(currentNumber);
-        AddInfo(currentNumber);
-    }
 }
 
 function addElementsToDropDown(dropDownName, data) {
@@ -304,4 +321,9 @@ function RemoveElementsFromDropDown(dropDownName) {
     while (dropDown.firstChild) {
         dropDown.removeChild(dropDown.firstChild);
     }
+}
+
+function getElementValue(elementName, number) {
+    var element = document.getElementById(elementName + number);
+    return element.options[element.selectedIndex].text;
 }
