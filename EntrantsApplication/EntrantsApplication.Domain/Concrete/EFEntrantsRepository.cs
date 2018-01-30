@@ -12,11 +12,7 @@ namespace EntrantsApplication.Domain.Concrete
     {
         private EFDbContext _entrantsContext = new EFDbContext();
         private SpecialityDbContext _specialityContext = new SpecialityDbContext();
-
-        private static int _universityId;
-        private static int _educationFormId;
-        private static int _educationPeriodId;
-        private static int _educationFeeId;
+        
         public static EntrantSpeciality[] _currentEntrantsSpeciality;
 
         public IEnumerable<Entrant> Entrants { get { return _entrantsContext.Entrants; } }
@@ -51,96 +47,101 @@ namespace EntrantsApplication.Domain.Concrete
         public string[] getEducationFormsFromDatabase(string universityName)
         {
             IEnumerable<int> educationFormsIds;
-            _universityId = _specialityContext.Universities.Where(university => university.Name == universityName).
-                   Select(university => university.UniversityId).FirstOrDefault();
+            var universityId = FindUniversityId(universityName);
             if (_currentEntrantsSpeciality == null)
             {
-               educationFormsIds = _specialityContext.Specialities.Where(speciality => speciality.UniversityId == _universityId)
+               educationFormsIds = _specialityContext.Specialities.Where(speciality => speciality.UniversityId == universityId)
                     .Select(speciality => speciality.EducationFormId).Distinct();
             }
             else
             {
-               educationFormsIds = _currentEntrantsSpeciality.Where(speciality => speciality.UniversityId == _universityId).
+               educationFormsIds = _currentEntrantsSpeciality.Where(speciality => speciality.UniversityId == universityId).
                     Select(speciality => speciality.EducationFormId).Distinct();
             }
             return _specialityContext.EducationForms.Where(form => educationFormsIds.Contains(form.EducationFormId)).
                 Select(form => form.Name).ToArray();
         }
 
-        public string[] getEducationPeriodsFromDatabase(string educationFormName)
+        public string[] getEducationPeriodsFromDatabase(string[] specialityInfo)
         {
             IEnumerable<int> educationPeriodsIds;
-            _educationFormId = _specialityContext.EducationForms.Where(form => form.Name == educationFormName).
-            Select(form => form.EducationFormId).FirstOrDefault();
+            var universityId = FindUniversityId(specialityInfo[0]);
+            var educationFormId = FindEducationFormId(specialityInfo[1]);
             if (_currentEntrantsSpeciality == null)
             {
-                educationPeriodsIds = _specialityContext.Specialities.Where(speciality => (speciality.UniversityId == _universityId) &&
-                (speciality.EducationFormId == _educationFormId)).Select(speciality => speciality.EducationPeriodId).Distinct();
+                educationPeriodsIds = _specialityContext.Specialities.Where(speciality => (speciality.UniversityId == universityId) &&
+                (speciality.EducationFormId == educationFormId)).Select(speciality => speciality.EducationPeriodId).Distinct();
             }
             else
             {
-                educationPeriodsIds = _currentEntrantsSpeciality.Where(speciality => speciality.UniversityId == _universityId &&
-                (speciality.EducationFormId == _educationFormId)).Select(speciality => speciality.EducationPeriodId).Distinct();
+                educationPeriodsIds = _currentEntrantsSpeciality.Where(speciality => speciality.UniversityId == universityId &&
+                (speciality.EducationFormId == educationFormId)).Select(speciality => speciality.EducationPeriodId).Distinct();
             }
             return _specialityContext.EducationPeriods.Where(period => educationPeriodsIds.Contains(period.EducationPeriodId)).
                 Select(period => period.Name).ToArray();
         }
 
-        public string[] getEducationFeesFromDatabase(string educationPeriodName)
+        public string[] getEducationFeesFromDatabase(string[] specialityInfo)
         {
             IEnumerable<int> educationFeesIds;
-            _educationPeriodId = _specialityContext.EducationPeriods.Where(period => period.Name == educationPeriodName).
-              Select(period => period.EducationPeriodId).FirstOrDefault();
+            var universityId = FindUniversityId(specialityInfo[0]);
+            var educationFormId = FindEducationFormId(specialityInfo[1]);
+            var educationPeriodId = FindEducationPeriodId(specialityInfo[2]);
             if (_currentEntrantsSpeciality == null)
             {
-                educationFeesIds = _specialityContext.Specialities.Where(speciality => (speciality.UniversityId == _universityId) &&
-                (speciality.EducationFormId == _educationFormId) && (speciality.EducationPeriodId == _educationPeriodId))
+                educationFeesIds = _specialityContext.Specialities.Where(speciality => (speciality.UniversityId == universityId) &&
+                (speciality.EducationFormId == educationFormId) && (speciality.EducationPeriodId == educationPeriodId))
                 .Select(speciality => speciality.EducationFeeId).Distinct();
             }
             else
             {
-                educationFeesIds = _currentEntrantsSpeciality.Where(speciality => speciality.UniversityId == _universityId &&
-                (speciality.EducationFormId == _educationFormId) && (speciality.EducationPeriodId == _educationPeriodId))
+                educationFeesIds = _currentEntrantsSpeciality.Where(speciality => speciality.UniversityId == universityId &&
+                (speciality.EducationFormId == educationFormId) && (speciality.EducationPeriodId == educationPeriodId))
                 .Select(speciality => speciality.EducationFeeId).Distinct();
             }
             return _specialityContext.EducationFees.Where(fee => educationFeesIds.Contains(fee.EducationFeeId)).
                 Select(fee => fee.Name).ToArray();
         }
 
-        public string[] getSpecialitiesFromDatabase(string educationFeeName)
+        public string[] getSpecialitiesFromDatabase(string[] specialityInfo)
         {
-            _educationFeeId = _specialityContext.EducationFees.Where(fee => fee.Name == educationFeeName).
-                Select(fee => fee.EducationFeeId).FirstOrDefault();
+            var universityId = FindUniversityId(specialityInfo[0]);
+            var educationFormId = FindEducationFormId(specialityInfo[1]);
+            var educationPeriodId = FindEducationPeriodId(specialityInfo[2]);
+            var educationFeeId = FindEducationFeeId(specialityInfo[3]);
             IEnumerable<int> specialityNamesIds;
             if (_currentEntrantsSpeciality == null)
             {
-                specialityNamesIds = _specialityContext.Specialities.Where(speciality => (speciality.UniversityId == _universityId) &&
-                 (speciality.EducationFormId == _educationFormId) && (speciality.EducationPeriodId == _educationPeriodId)
-                 && (speciality.EducationPeriodId == _educationPeriodId) && (speciality.EducationFeeId == _educationFeeId))
-                 .Select(speciality => speciality.SpecialityNameId).Distinct();
+                specialityNamesIds = _specialityContext.Specialities.Where(speciality => (speciality.UniversityId == universityId) &&
+                 (speciality.EducationFormId == educationFormId) && (speciality.EducationPeriodId == educationPeriodId)
+                 && (speciality.EducationFeeId == educationFeeId)).Select(speciality => speciality.SpecialityNameId).Distinct();
             }
             else
             {
-                specialityNamesIds = _currentEntrantsSpeciality.Where(speciality => (speciality.UniversityId == _universityId) &&
-                (speciality.EducationFormId == _educationFormId) && (speciality.EducationPeriodId == _educationPeriodId)
-                && (speciality.EducationPeriodId == _educationPeriodId) && (speciality.EducationFeeId == _educationFeeId))
-                .Select(speciality => speciality.SpecialityNameId).Distinct();
+                specialityNamesIds = _currentEntrantsSpeciality.Where(speciality => (speciality.UniversityId == universityId) &&
+                (speciality.EducationFormId == educationFormId) && (speciality.EducationPeriodId == educationPeriodId)
+                && (speciality.EducationFeeId == educationFeeId)).Select(speciality => speciality.SpecialityNameId).Distinct();
             }
             return _specialityContext.SpecialityNames.Where(name => specialityNamesIds.Contains(name.SpecialityNameId)).
                 Select(name => name.Name).ToArray();
         }
 
-        public IEnumerable<EntrantSpeciality> getGroupSpecialities(string specialityName)
+        public IEnumerable<EntrantSpeciality> getGroupSpecialities(string[] specialityInfo)
         {
             List<EntrantSpeciality> _groupSpecialities;
-            var specialityInfo = _specialityContext.SpecialityNames.Where(name => name.Name == specialityName).
+            var universityId = FindUniversityId(specialityInfo[0]);
+            var educationFormId = FindEducationFormId(specialityInfo[1]);
+            var educationPeriodId = FindEducationPeriodId(specialityInfo[2]);
+            var educationFeeId = FindEducationFeeId(specialityInfo[3]);
+            var specialityName = specialityInfo[4];
+            var specialityNameInfo = _specialityContext.SpecialityNames.Where(name => name.Name == specialityName).
                 Select(name => new { name.SpecialityNameId, name.SpecialityGroupId }).FirstOrDefault();
-            var currentSpecialityId = _specialityContext.Specialities.Where(speciality => (speciality.UniversityId == _universityId) &&
-             (speciality.EducationFormId == _educationFormId) && (speciality.EducationPeriodId == _educationPeriodId)
-             && (speciality.EducationPeriodId == _educationPeriodId) && (speciality.EducationFeeId == _educationFeeId)
-             && (speciality.SpecialityNameId == specialityInfo.SpecialityNameId)).FirstOrDefault().SpecialityId;
+            var currentSpecialityId = _specialityContext.Specialities.Where(speciality => (speciality.UniversityId == universityId) &&
+             (speciality.EducationFormId == educationFormId) && (speciality.EducationPeriodId == educationPeriodId)
+             && (speciality.EducationFeeId == educationFeeId) && (speciality.SpecialityNameId == 
+             specialityNameInfo.SpecialityNameId)).FirstOrDefault().SpecialityId;
             var currentSpeciality = _specialityContext.Specialities.Where(speciality => speciality.SpecialityId == currentSpecialityId).FirstOrDefault();
-            var specialitiesNamesIds = _specialityContext.SpecialityNames.Where(name => (name.SpecialityGroupId == specialityInfo.SpecialityGroupId)).
+            var specialitiesNamesIds = _specialityContext.SpecialityNames.Where(name => (name.SpecialityGroupId == specialityNameInfo.SpecialityGroupId)).
                 Select(name => name.SpecialityNameId);         
             if (_currentEntrantsSpeciality == null)
             {
@@ -193,6 +194,30 @@ namespace EntrantsApplication.Domain.Concrete
         {
             return _entrantsContext.Specialities.Where(speciality =>
             (speciality.SpecialityName == specialityName) && (speciality.IsFree == isFree)).FirstOrDefault().SpecialityId;
+        }
+
+        private int FindUniversityId(string universityName)
+        {
+            return _specialityContext.Universities.Where(university => university.Name == universityName).
+                   Select(university => university.UniversityId).FirstOrDefault();
+        }
+
+        private int FindEducationFormId(string educationFormName)
+        {
+            return _specialityContext.EducationForms.Where(form => form.Name == educationFormName).
+            Select(form => form.EducationFormId).FirstOrDefault();
+        }
+
+        private int FindEducationPeriodId(string educationPeriodName)
+        {
+            return _specialityContext.EducationPeriods.Where(period => period.Name == educationPeriodName).
+              Select(period => period.EducationPeriodId).FirstOrDefault();
+        }
+
+        private int FindEducationFeeId(string educationFeeName)
+        {
+            return _specialityContext.EducationFees.Where(fee => fee.Name == educationFeeName).
+                Select(fee => fee.EducationFeeId).FirstOrDefault();
         }
     }
 }
